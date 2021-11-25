@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo> 
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="program/**"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <ProjectReference Include="../TaiyouFramework/TaiyouFramework.csproj" />
+    
+  </ItemGroup>
+
+</Project>
