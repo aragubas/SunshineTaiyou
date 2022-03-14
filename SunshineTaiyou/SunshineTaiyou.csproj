@@ -3,13 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo> 
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp6</TargetFramework>
 
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="program/**"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
-    <ProjectReference Include="../TaiyouFramework/TaiyouFramework.csproj" />
     
   </ItemGroup>
 

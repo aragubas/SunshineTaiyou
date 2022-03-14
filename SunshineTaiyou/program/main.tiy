@@ -1,0 +1,12 @@
+﻿/*
+    bla bla bla grande comentario
+/*
+
+@namespace(Main)
+@import(Core)
+
+$function(public, main)
+    Log /* Teste /* ("Hello \*teste\* World");
+    Log ("Goodbye World");
+
+$end
