@@ -1,12 +1,21 @@
 ﻿/*
-    bla bla bla grande comentario
+    Big comment line, should be ignored by the interpreter
 /*
 
-@namespace(Main)
-@import(Core)
+/* Applies to the entire assembly /*
+@namespace(main)
+@option(bom-formatting)
 
-$function(public, main)
-    Log /* Teste /* ("Hello \*teste\* World");
-    Log ("Goodbye World");
 
-$end
+function (program)
+{
+    WriteLine("Hello /* This should be visible /*");
+
+    second();
+}
+
+ 
+function (second)
+{
+    Write("World");
+}

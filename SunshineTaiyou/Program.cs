@@ -18,239 +18,57 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using SunshineTaiyou.Instruction;
 
 namespace SunshineTaiyou
 {
     class Program
     {
-        abstract class Token
+        class Runtime
         {
-            public string[] Data;
-        }
+            TaiyouContext context;
 
-        class ImportToken : Token {  }
-        class NamespaceToken : Token {  }
+            public void Run()
+            {
+                context = new TaiyouContext();
+
+                TaiyouNamespace mainNamespace = new TaiyouNamespace("main", context);
+                
+                // Creates program routine with WriteLine instruction
+                Routine mainRoutine = new Routine("program", mainNamespace);
+                mainRoutine.Instructions.Add(new Taiyou_WriteLine(new object[] { "Hello" }, mainRoutine));
+                mainRoutine.Instructions.Add(new Taiyou_CallRoutine(new object[] { "second" }, mainRoutine));
+                
+
+                // Creates program routine with WriteLine instruction
+                Routine secondRoutine = new Routine("second", mainNamespace);
+                secondRoutine.Instructions.Add(new Taiyou_Write(new object[] { "World" }, secondRoutine));
 
 
-        class RoutineBlock
-        {
-            public List<string> Arguments = new();
-            public List<string> Statements = new();
+                mainNamespace.Routines.Add("program", mainRoutine);
+                mainNamespace.Routines.Add("second", secondRoutine);
+
+                // Create the main namespace
+                context.TaiyouNamespaces.Add("main", mainNamespace);
+ 
+
+
+                // Runs the program routine in main namespace
+                context.TaiyouNamespaces["main"].Routines["program"].run();
+                
+            }
         }
 
         // Main entry point
         static void Main(string[] args)
         {   
-            string SourceCode = File.ReadAllText("./program/main.tiy").Trim().ReplaceLineEndings();
-            string ParsedSourceCode = "";
-            List<Token> tokens = new();
-            List<RoutineBlock> routineBlocks = new();
+            // Runtime taiyouRuntime = new Runtime();
+            // taiyouRuntime.Run();
 
-            // Removes white spaces and comment lines
-            bool CommentTokenStart = false;
-            bool BlockComment = false;
-            char LastChar = ' ';
-            bool MultipleWhiteSpace = false;
-            bool LiteralBlock = false;
-            for (int i = 0; i < SourceCode.Length; i++)
-            {
-                char CurrentChar = SourceCode[i];
-                
-                if (CurrentChar == '"')
-                {
-                    LiteralBlock = !LiteralBlock;
-                }
+            Parser.Parse();
 
-                if (CurrentChar == '/') 
-                { 
-                    CommentTokenStart = true;
-                    continue;
-                }
-
-                if (CurrentChar == '*') 
-                { 
-                    if (CommentTokenStart && !LiteralBlock)
-                    {
-                        BlockComment = !BlockComment;
-                        continue;
-                    }
-                }
-
-                MultipleWhiteSpace = CurrentChar == ' ' && LastChar == ' ' && !LiteralBlock;
-
-                if (!BlockComment && !MultipleWhiteSpace)
-                {
-                    ParsedSourceCode += CurrentChar;
-                    LastChar = CurrentChar;
-                }
-
-            }
-
-            // Finds @at statements
-            LastChar = ' ';
-            LiteralBlock = false;
-            string Piece = "";
-            bool SpecialStatement = false;
-            Token currentToken = null;
-            string SecondPass = "";
-            for (int i = 0; i < ParsedSourceCode.Length; i++)
-            {
-                char CurrentChar = ParsedSourceCode[i];
-
-                if (CurrentChar == '@')
-                {
-                    SpecialStatement = true;
-                    continue;
-                }
-
-                if (CurrentChar == '(' && SpecialStatement)
-                {
-                    LiteralBlock = true;
-
-                    if (Piece == "namespace")
-                    {
-                        currentToken = new NamespaceToken();
-                    }
-
-                    else if (Piece == "import")
-                    {
-                        currentToken = new ImportToken();
-                    }
-
-                    Piece = "";
-                    continue;
-                }
-
-                // Ends literal block
-                if (CurrentChar == ')' && LiteralBlock && SpecialStatement)
-                {
-                    LiteralBlock = false;
-                    SpecialStatement = false;
-
-                    if (currentToken != null)
-                    {
-                        currentToken.Data = new String[] { Piece };
-                    }
-
-                    tokens.Add(currentToken);
-                    currentToken = null;
-
-                    Piece = "";
-                    continue;
-                }
-
-                if (SpecialStatement)
-                {
-                    Piece += CurrentChar;
-                    continue;
-                }
-                SecondPass += CurrentChar;
-            }
-            ParsedSourceCode = SecondPass.Trim();
-
-            // Console.WriteLine(ParsedSourceCode);
-
-
-            RoutineBlock routineBlock = null;
-            Piece = "";
-            bool RoutineBlockIdentify = false;
-            bool RoutineBlock = false;
-            for (int i = 0; i < ParsedSourceCode.Length; i++)
-            {
-                Char CurrentChar = ParsedSourceCode[i];
-
-                if (CurrentChar == '$')
-                {
-                    RoutineBlockIdentify = true;
-                    continue;
-                }   
-
-                if (CurrentChar == '(' && RoutineBlockIdentify)
-                {
-                    if (Piece == "function")
-                    {
-                        RoutineBlock = true;
-                        RoutineBlockIdentify = false;
-
-                        routineBlock = new RoutineBlock();
-
-                    }
-                    Piece = "";
-                    continue;
-                }
-
-                if (CurrentChar == ')' && RoutineBlock && RoutineBlockIdentify)
-                {
-                    RoutineBlockIdentify = false;
-
-                    string[] arguments = Piece.Remove(0, 1).Trim().Split(',');
-
-                    foreach(String arg in arguments)
-                    {
-                        routineBlock.Arguments.Add(arg.Trim());
-                    }
-
-                    Console.WriteLine(arguments[1]);
-
-                    routineBlocks.Add(routineBlock);
-                    
-                    Piece = "";
-                    continue;
-                }
- 
-                if (RoutineBlock && !RoutineBlockIdentify)
-                {
-                    Console.WriteLine(Piece);
-                    
-                }
-
-                if (RoutineBlockIdentify || RoutineBlock)
-                {
-                    Piece += CurrentChar;
-                }
-            }
-
-
-            // foreach(Token token in tokens)
-            // {
-            //     Console.WriteLine(token);
-            //     Console.Write("  ");
-
-            //     foreach(string data in token.Data)
-            //     {
-            //         Console.Write($"\'{data}\', ");
-            //     }
-
-            //     Console.Write("\n");
-            // }
-
-
-            // CompileScripts();
-
-        }
- 
-        public static void CompileScripts()
-        {
-            DirectoryInfo files = new DirectoryInfo("program");
-            string currentDir = Path.Combine("program", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase));
-
-            foreach(FileInfo info in files.GetFiles("*.tasm", SearchOption.AllDirectories))
-            {
-                string AssemblyName = Path.GetRelativePath(currentDir, info.FullName).Replace("../", "");
-
-                Console.WriteLine($"-- Loading assembly \"{AssemblyName}\"...");
-
-                
-                Console.WriteLine("Compiling assembly...");
-
-
-                Console.WriteLine("Done!");
-
-            }
-
-
-
-
+            Console.WriteLine("\n\nPress any key to exit.");
+            Console.ReadKey();
         }
     }
 }
