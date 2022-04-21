@@ -23,6 +23,20 @@ namespace SunshineTaiyou
 {
     class Program
     {
+        static string ParserRemoveWhitespaces(ref string input)
+        {
+            string[] lines = input.Split('\n');
+            string output = "";
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string current_line = lines[i];
+                if (current_line == "" || current_line == " ") { continue; }
+                output += current_line + "\n";
+            }
+            
+            return output.Trim();
+        }
+
         /// <summary> Removes empty lines and inline comments </summary>
         static List<string> ParserStepOne(ref string[] input_lines)
         {
@@ -45,8 +59,6 @@ namespace SunshineTaiyou
         static List<string> ParsetStepTwo(ref List<string> input_lines)
         {
             string entire_file = "";
-            List<string> Output = new List<string>();
-
             foreach (string line in input_lines)
             {
                 entire_file += line + "\n";
@@ -94,8 +106,7 @@ namespace SunshineTaiyou
                 output += current_char; 
             }
 
-            Console.WriteLine(output);
-            return Output;
+            return new List<string>(ParserRemoveWhitespaces(ref output).Split('\n'));
         }
 
         static void PrintList(List<string> input)
@@ -112,8 +123,8 @@ namespace SunshineTaiyou
             string[] source_code = File.ReadAllLines("./program/main.tiy");
             List<string> FirstStepParser = ParserStepOne(ref source_code);
             List<string> SecondStepParser = ParsetStepTwo(ref FirstStepParser);
-
-            //PrintList(SecondStepParser);
+            
+            PrintList(SecondStepParser);
         }
     }
 }
