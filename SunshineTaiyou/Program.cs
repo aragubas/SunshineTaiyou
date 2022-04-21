@@ -21,6 +21,27 @@ using System.Reflection;
 
 namespace SunshineTaiyou
 {
+    enum TaiyouTokenType
+    {
+        AtDefinition,
+        FunctionDefinition,
+        Instruction
+    }
+
+    class TaiyouToken
+    {
+        string Initiator;
+        object[] Parameters;
+        TaiyouTokenType Type;
+
+        public TaiyouToken(string initiator, object[] parameters, TaiyouTokenType type)
+        {
+            Initiator = initiator;
+            Parameters = parameters;
+            Type = type;
+        }
+    }
+
     class Program
     {
         static string ParserRemoveWhitespaces(ref string input)
@@ -56,7 +77,7 @@ namespace SunshineTaiyou
             return ParserOutput;
         }
 
-        static List<string> ParsetStepTwo(ref List<string> input_lines)
+        static List<string> ParserStepTwo(ref List<string> input_lines)
         {
             string entire_file = "";
             foreach (string line in input_lines)
@@ -113,18 +134,99 @@ namespace SunshineTaiyou
         {
             for (int i = 0; i < input.Count; i++)
             {
-                Console.WriteLine(input[i]);
+                Console.WriteLine($"'{input[i]}'");
             }
+        }
+
+        static List<TaiyouToken> ParserGetAtDefinitions(ref List<string> input)
+        {
+            string ParsedSourceCode = "";
+            List<TaiyouToken> Output = new List<TaiyouToken>();
+
+            foreach (string line in input) { ParsedSourceCode += $"{line}\n"; }
+            ParsedSourceCode = ParsedSourceCode.Trim();
+
+            bool AtDeclared = false;
+            bool AtReadingBody = false;
+            bool StringBlock = false;
+            string AtName = "";
+            string AtBody = "";
+            char last_char = ' ';
+
+            for (int i = 0; i < ParsedSourceCode.Length; i++)
+            {
+                char current_char = ParsedSourceCode[i];
+
+                if (current_char == '"' && ParsedSourceCode[i - 1] != '\\')
+                {
+                    StringBlock = !StringBlock;
+                }
+
+                if (current_char == '@' && !AtDeclared)
+                {
+                    AtDeclared = true;
+
+                    AtName = "";
+                    AtBody = "";
+                    continue;
+                }
+
+                // Start reading body, stop parsing name
+                if (current_char == '(' && !AtReadingBody && AtDeclared && !StringBlock)
+                {
+                    AtName = AtName.Trim();
+                    AtReadingBody = true;
+                    continue;
+                }
+
+                // Stops reading body, create taiyou token object
+                if (current_char == ')' && AtReadingBody && AtDeclared && !StringBlock)
+                {
+                    AtBody = AtBody.Trim();
+
+                    Console.WriteLine($"body: '{AtBody}'");
+                    Console.WriteLine($"name: '{AtName}'");
+
+                    AtReadingBody = false;
+                    AtDeclared = false;
+                    AtName = "";
+                }
+
+                if (AtDeclared)
+                {
+                    if (!AtReadingBody)
+                    {
+                        AtName += current_char;
+                    }else
+                    {
+                        AtBody += current_char;
+                    }
+                }
+
+                last_char = current_char;
+            }
+
+            return Output;
         }
 
         // Main entry point
         static void Main(string[] args)
         {
+            //
+            // Parser Step1 : General code cleanup and remove of comment lines
+            //
             string[] source_code = File.ReadAllLines("./program/main.tiy");
-            List<string> FirstStepParser = ParserStepOne(ref source_code);
-            List<string> SecondStepParser = ParsetStepTwo(ref FirstStepParser);
-            
-            PrintList(SecondStepParser);
+            List<string> FirstStepParserOutput = ParserStepOne(ref source_code);
+            List<string> SecondStepParserOutput = ParserStepTwo(ref FirstStepParserOutput);
+
+            List<TaiyouToken> tokens = new List<TaiyouToken>();
+
+            foreach(TaiyouToken token in ParserGetAtDefinitions(ref SecondStepParserOutput))
+            {
+                tokens.Add(token);
+            }
+
+            //PrintList(SecondStepParser);
         }
     }
 }
