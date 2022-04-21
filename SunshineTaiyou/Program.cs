@@ -18,57 +18,103 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using SunshineTaiyou.Instruction;
 
 namespace SunshineTaiyou
 {
     class Program
     {
-        class Runtime
+        /// <summary> Removes empty lines and inline comments </summary>
+        static List<string> ParserStepOne(ref string[] input_lines)
         {
-            TaiyouContext context;
+            List<string> ParserOutput = new List<string>();
 
-            public void Run()
+            for (int i = 0; i < input_lines.Length; i++)
             {
-                context = new TaiyouContext();
+                string line = input_lines[i].Trim();
+                if (line.Length < 1) { continue; }
 
-                TaiyouNamespace mainNamespace = new TaiyouNamespace("main", context);
+                // First level : Line Starters
+                if (line.StartsWith("//")) { continue; }
                 
-                // Creates program routine with WriteLine instruction
-                Routine mainRoutine = new Routine("program", mainNamespace);
-                mainRoutine.Instructions.Add(new Taiyou_WriteLine(new object[] { "Hello" }, mainRoutine));
-                mainRoutine.Instructions.Add(new Taiyou_CallRoutine(new object[] { "second" }, mainRoutine));
-                
+                ParserOutput.Add(line);
+            }
+            
+            return ParserOutput;
+        }
 
-                // Creates program routine with WriteLine instruction
-                Routine secondRoutine = new Routine("second", mainNamespace);
-                secondRoutine.Instructions.Add(new Taiyou_Write(new object[] { "World" }, secondRoutine));
+        static List<string> ParsetStepTwo(ref List<string> input_lines)
+        {
+            string entire_file = "";
+            List<string> Output = new List<string>();
 
+            foreach (string line in input_lines)
+            {
+                entire_file += line + "\n";
+            }
+            entire_file = entire_file.Trim();
 
-                mainNamespace.Routines.Add("program", mainRoutine);
-                mainNamespace.Routines.Add("second", secondRoutine);
+            //
+            //  Removes all string literals
+            // 
+            bool StringBlock = false;
+            bool BigComment = false;
+            string output = "";
+            char last_char = ' ';
+            for (int i = 0; i < entire_file.Length; i++)
+            {
+                char current_char = entire_file[i];
 
-                // Create the main namespace
-                context.TaiyouNamespaces.Add("main", mainNamespace);
- 
+                if (current_char == '"' && entire_file[i - 1] != '\\')
+                {
+                    StringBlock = !StringBlock;
+                }
 
+                if (!StringBlock)
+                {
+                    // Comment start
+                    if (current_char == '*' && last_char == '/')
+                    {
+                        BigComment = true;
+                        output = output.Remove(output.Length - 1, 1);
+                    }
 
-                // Runs the program routine in main namespace
-                context.TaiyouNamespaces["main"].Routines["program"].run();
-                
+                    if (current_char == '/' && last_char == '*')
+                    {
+                        BigComment = false;
+                        continue;
+                    }
+
+                }
+
+                last_char = current_char;
+                if (BigComment)
+                {
+                    continue;
+                }
+
+                output += current_char;
+            }
+
+            Console.WriteLine(output);
+            return Output;
+        }
+
+        static void PrintList(List<string> input)
+        {
+            for (int i = 0; i < input.Count; i++)
+            {
+                Console.WriteLine(input[i]);
             }
         }
 
         // Main entry point
         static void Main(string[] args)
-        {   
-            // Runtime taiyouRuntime = new Runtime();
-            // taiyouRuntime.Run();
+        {
+            string[] source_code = File.ReadAllLines("./program/main.tiy");
+            List<string> FirstStepParser = ParserStepOne(ref source_code);
+            List<string> SecondStepParser = ParsetStepTwo(ref FirstStepParser);
 
-            Parser.Parse();
-
-            Console.WriteLine("\n\nPress any key to exit.");
-            Console.ReadKey();
+            //PrintList(SecondStepParser);
         }
     }
 }

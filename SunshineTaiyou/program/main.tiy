@@ -1,21 +1,24 @@
 ﻿/*
-    Big comment line, should be ignored by the interpreter
-/*
-
-/* Applies to the entire assembly /*
-@namespace(main)
-@option(bom-formatting)
+    Big comment line, should be ignored by parser	
 
 
-function (program)
+
+	
+*/
+// Applies to the entire assembly
+@namespace("main \"escape character\" ")
+
+routine (program)
 {
-    WriteLine("Hello /* This should be visible /*");
+    Log("Hello /* This should be visible */")
 
-    second();
+	Jump("second")
 }
+/*
+    This one should also be ignored
+*/
 
- 
-function (second)
+routine (second)
 {
-    Write("World");
+    Log("World")
 }
