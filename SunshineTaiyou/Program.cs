@@ -83,7 +83,6 @@ namespace SunshineTaiyou
                         BigComment = false;
                         continue;
                     }
-
                 }
 
                 last_char = current_char;
@@ -92,7 +91,7 @@ namespace SunshineTaiyou
                     continue;
                 }
 
-                output += current_char;
+                output += current_char; 
             }
 
             Console.WriteLine(output);

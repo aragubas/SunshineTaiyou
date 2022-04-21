@@ -1,17 +1,25 @@
 ﻿/*
     Big comment line, should be ignored by parser	
-
-
-
-	
 */
 // Applies to the entire assembly
 @namespace("main \"escape character\" ")
 
 routine (program)
 {
-    Log("Hello /* This should be visible */")
+    /*
+		Test
+	*/
+	/*
+		Test
+	*/
+	
+	
+	Log("Hello /* This should be visible */")
 
+	/*
+		Test
+	*/
+	
 	Jump("second")
 }
 /*
