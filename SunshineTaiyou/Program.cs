@@ -208,8 +208,6 @@ namespace SunshineTaiyou
                 //Console.WriteLine(token.ToString());
                 tokens.Add(token);
             }
-
-           
             
             //PrintList(SecondStepParserOutput);
         }

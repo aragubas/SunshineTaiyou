@@ -94,21 +94,37 @@ namespace SunshineTaiyou
             {
                 object value = null;
 
-                if (parameter.StartsWith('"') && parameter.EndsWith('"'))
+                try
                 {
-                    value = parameter.Substring(1, parameter.Length - 2);
+                    if (parameter.StartsWith('"') && parameter.EndsWith('"'))
+                    {
+                        value = parameter.Substring(1, parameter.Length - 2);
+
+                    }
+                    else if (parameter == "true" || parameter == "false")
+                    {
+                        value = bool.Parse(parameter);
+
+                    }
+                    else if (parameter.Contains('.'))
+                    {
+                        value = float.Parse(parameter);
+
+                    }
+                    else
+                    {
+                        value = int.Parse(parameter);
+
+                    }
 
                 }
-                else if (parameter == "true" || parameter == "false")
-                {
-                    value = bool.Parse(parameter);
-
-                }else
+                catch (FormatException)
                 {
                     // Parameter invalid 
-                    throw new Exception($"No suitable type found for parameter: '{parameter}'");
+                    throw new FormatException($"No suitable type found for parameter: '{parameter}'");
                 }
 
+                Console.WriteLine($"val: '{value}' type: {value.GetType()}");
                 parameters.Add(value);
             }
 
