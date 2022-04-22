@@ -21,27 +21,6 @@ using System.Reflection;
 
 namespace SunshineTaiyou
 {
-    enum TaiyouTokenType
-    {
-        AtDefinition,
-        FunctionDefinition,
-        Instruction
-    }
-
-    class TaiyouToken
-    {
-        string Initiator;
-        object[] Parameters;
-        TaiyouTokenType Type;
-
-        public TaiyouToken(string initiator, object[] parameters, TaiyouTokenType type)
-        {
-            Initiator = initiator;
-            Parameters = parameters;
-            Type = type;
-        }
-    }
-
     class Program
     {
         static string ParserRemoveWhitespaces(ref string input)
@@ -151,6 +130,7 @@ namespace SunshineTaiyou
             bool StringBlock = false;
             string AtName = "";
             string AtBody = "";
+            TaiyouToken atToken = new TaiyouToken();
             char last_char = ' ';
 
             for (int i = 0; i < ParsedSourceCode.Length; i++)
@@ -184,8 +164,10 @@ namespace SunshineTaiyou
                 {
                     AtBody = AtBody.Trim();
 
-                    Console.WriteLine($"body: '{AtBody}'");
                     Console.WriteLine($"name: '{AtName}'");
+                    Console.WriteLine($"body: '{AtBody}'");
+
+                    atToken = new TaiyouToken(AtName, AtBody, TaiyouTokenType.AtDefinition);
 
                     AtReadingBody = false;
                     AtDeclared = false;
@@ -226,7 +208,7 @@ namespace SunshineTaiyou
                 tokens.Add(token);
             }
 
-            //PrintList(SecondStepParser);
+            //PrintList(SecondStepParserOutput);
         }
     }
 }
