@@ -14,6 +14,9 @@
     limitations under the License.
 */
 
+using System;
+using System.Collections.Generic;
+
 namespace SunshineTaiyou
 {
     enum TaiyouTokenType
@@ -47,6 +50,36 @@ namespace SunshineTaiyou
 
         public void ParseParameters(string string_parameters)
         {
+            // Step 1 - Convert parameter list to string list
+            List<string> str_parameters = new List<string>();
+
+            bool StringBlock = false;
+            string Output = "";
+
+            for (int i = 0; i < string_parameters.Length; i++)
+            {
+                char current_char = string_parameters[i];
+                
+                if (current_char == '"' && (string_parameters.Length > 1 && string_parameters[i - 1] != '\\'))
+                {
+                    StringBlock = !StringBlock;
+                }
+
+                if (!StringBlock)
+                {
+                    if (current_char == ',')
+                    {
+                        str_parameters.Add(Output);
+
+                        Console.WriteLine("Added parameter: " + Output);
+                        Output = "";
+                        
+                    }
+                }
+
+                Output += current_char;
+            }
+
 
         }
 
@@ -54,14 +87,17 @@ namespace SunshineTaiyou
         {
             string parms_string = "";
 
-            for(int i = 0; i < Parameters.Length; i++)
+            if (Parameters != null)
             {
-                if (i == Parameters.Length - 1)
+                for(int i = 0; i < Parameters.Length; i++)
                 {
-                    parms_string += Parameters[i].ToString();
-                }else
-                {
-                    parms_string += Parameters[i].ToString() + ", ";
+                    if (i == Parameters.Length - 1)
+                    {
+                        parms_string += Parameters[i].ToString();
+                    }else
+                    {
+                        parms_string += Parameters[i].ToString() + ", ";
+                    }
                 }
             }
 

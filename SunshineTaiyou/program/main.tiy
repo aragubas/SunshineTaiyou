@@ -9,7 +9,6 @@
 
 // Applies to the entire assembly
 @namespace ("main \"escape character\" ", "sinas (ceira)", true)
-@thinguie (true)
 
 routine (program)
 {

@@ -164,14 +164,14 @@ namespace SunshineTaiyou
                 {
                     AtBody = AtBody.Trim();
 
-                    Console.WriteLine($"name: '{AtName}'");
-                    Console.WriteLine($"body: '{AtBody}'");
-
                     atToken = new TaiyouToken(AtName, AtBody, TaiyouTokenType.AtDefinition);
+
+                    Output.Add(atToken);
 
                     AtReadingBody = false;
                     AtDeclared = false;
                     AtName = "";
+                    continue;
                 }
 
                 if (AtDeclared)
@@ -205,9 +205,12 @@ namespace SunshineTaiyou
 
             foreach(TaiyouToken token in ParserGetAtDefinitions(ref SecondStepParserOutput))
             {
+                //Console.WriteLine(token.ToString());
                 tokens.Add(token);
             }
 
+           
+            
             //PrintList(SecondStepParserOutput);
         }
     }
