@@ -60,27 +60,63 @@ namespace SunshineTaiyou
             {
                 char current_char = string_parameters[i];
                 
-                if (current_char == '"' && (string_parameters.Length > 1 && string_parameters[i - 1] != '\\'))
+                if ((i == 0 && current_char == '"') || (current_char == '"' && string_parameters[i - 1] != '\\'))
                 {
                     StringBlock = !StringBlock;
                 }
 
+                // Forcibly Add last character
+                if (i == string_parameters.Length - 1)
+                {
+                    Output += current_char;
+                }
+
                 if (!StringBlock)
                 {
-                    if (current_char == ',')
+                    if (current_char == ',' || i == string_parameters.Length - 1)
                     {
-                        str_parameters.Add(Output);
-
-                        Console.WriteLine("Added parameter: " + Output);
-                        Output = "";
+                        Output = Output.Trim();
                         
+                        str_parameters.Add(Output);
+                        
+                        Output = "";
+                        continue;
                     }
                 }
 
                 Output += current_char;
             }
 
+            // Parse parsed parameters
+            List<object> parameters = new List<object>();
 
+            foreach (string parameter in str_parameters)
+            {
+                string string_type = "";
+                object value = null;
+
+                if (parameter.StartsWith('"') && parameter.EndsWith('"'))
+                {
+                    string_type = "string";
+                    value = parameter.Substring(1, parameter.Length - 2);
+
+                }
+                else if (parameter == "true" || parameter == "false")
+                {
+                    string_type = "bool";
+                    value = bool.Parse(parameter);
+
+                }else
+                {
+                    // Parameter invalid 
+                    throw new Exception($"No suitable type found for parameter: '{parameter}'");
+                }
+
+                parameters.Add(value);
+                Console.WriteLine(value.GetType());
+            }
+
+            Parameters = parameters.ToArray();
         }
 
         public override string ToString()
