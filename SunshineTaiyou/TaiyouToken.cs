@@ -92,18 +92,15 @@ namespace SunshineTaiyou
 
             foreach (string parameter in str_parameters)
             {
-                string string_type = "";
                 object value = null;
 
                 if (parameter.StartsWith('"') && parameter.EndsWith('"'))
                 {
-                    string_type = "string";
                     value = parameter.Substring(1, parameter.Length - 2);
 
                 }
                 else if (parameter == "true" || parameter == "false")
                 {
-                    string_type = "bool";
                     value = bool.Parse(parameter);
 
                 }else
@@ -113,7 +110,6 @@ namespace SunshineTaiyou
                 }
 
                 parameters.Add(value);
-                Console.WriteLine(value.GetType());
             }
 
             Parameters = parameters.ToArray();
