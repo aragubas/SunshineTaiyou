@@ -268,7 +268,7 @@ namespace SunshineTaiyou
                     {
                         if (Routine_ReadingParameters)
                         {
-                            BlockParameters = current_reading;
+                            BlockParameters = current_reading.Trim();
                             current_reading = "";
 
                             Routine_ReadingBody = true;
@@ -300,11 +300,16 @@ namespace SunshineTaiyou
 
                     if (current_char == '}' && Routine_SubBlockLevel == 0 && !StringBlock)
                     {
-                        Routine_ReadingBody = false;
-                        Routine_ReadingBodyStarted = false;
                         BlockBody = current_reading.Trim();
 
-                        Console.WriteLine(BlockBody);
+                        Console.WriteLine($"Block parameters: {BlockParameters} body:\n'{BlockBody}'");
+                        
+                        Routine_ReadingBody = false;
+                        Routine_ReadingBodyStarted = false;
+                        RoutineBlock = false;
+                        BlockParameters = "";
+                        current_reading = "";
+                        
                         continue;
                     }
 
