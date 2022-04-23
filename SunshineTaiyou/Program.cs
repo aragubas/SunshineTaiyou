@@ -191,6 +191,132 @@ namespace SunshineTaiyou
             return Output;
         }
 
+        static List<TaiyouToken> ParsetGetAllBlocks(ref List<string> input)
+        {
+            string ParsedSourceCode = "";
+            List<TaiyouToken> Output = new List<TaiyouToken>();
+
+            foreach (string line in input) { ParsedSourceCode += $"{line}\n"; }
+            ParsedSourceCode = ParsedSourceCode.Trim();
+
+            string BlockParameters = "";
+            string BlockBody = "";
+            TaiyouToken blockToken = new TaiyouToken();
+            char last_char = ' ';
+            string current_reading = "";
+            string routine_latch = "";
+            bool routine_detect = false;
+            bool RoutineBlock = false;
+            bool Routine_ReadingParameters = false;
+            bool Routine_ReadingBodyStarted = false;
+            bool Routine_ReadingBody = false;
+            int Routine_SubBlockLevel = 0;
+            bool StringBlock = false;
+
+            for (int i = 0; i < ParsedSourceCode.Length; i++)
+            {
+                char current_char = ParsedSourceCode[i];
+
+                if (current_char == '"' && ParsedSourceCode[i - 1] != '\\')
+                {
+                    StringBlock = !StringBlock;
+                }
+
+                if (!RoutineBlock && current_char == 'r' && last_char == '.' && !StringBlock)
+                {
+                    routine_detect = true;
+                }
+
+                // Detects routine keyword
+                if (!RoutineBlock && routine_detect && !StringBlock)
+                {
+                    bool Valid = false;
+
+                    Valid = current_char == 'r' || current_char == 'o' || current_char == 'u' || current_char == 't' || current_char == 'i' || current_char == 'n' || current_char == 'e';
+
+                    if (Valid)
+                    {
+                        routine_latch += current_char;
+                        
+                    } else 
+                    {
+                        if (routine_latch == "routine")
+                        {
+                            RoutineBlock = true;
+                            
+                            current_reading = "";
+                            routine_detect = false;
+                            routine_latch = "";
+                            continue;
+                        }
+
+                        routine_latch = "";
+                    }
+
+
+                }
+
+                if (RoutineBlock)
+                {
+                    if (current_char == '(' && !StringBlock && !Routine_ReadingBody)
+                    {
+                        Routine_ReadingParameters = true;
+                        continue;
+                    }
+
+                    if (current_char == ')' && Routine_ReadingParameters && !StringBlock)
+                    {
+                        if (Routine_ReadingParameters)
+                        {
+                            BlockParameters = current_reading;
+                            current_reading = "";
+
+                            Routine_ReadingBody = true;
+                            Routine_ReadingParameters = false;
+                            continue;
+                        }
+                    }
+
+                    // Prevent reset when reading nested blocks
+                    if (current_char == '{' && Routine_ReadingBody && Routine_ReadingBodyStarted)
+                    {
+                        Routine_SubBlockLevel++;
+                    }
+
+                    if (current_char == '}' && Routine_SubBlockLevel > 0 && Routine_ReadingBody && Routine_ReadingBodyStarted)
+                    {
+                        Routine_SubBlockLevel--;
+                        current_reading += current_char;
+                        continue;
+                    }
+
+                    if (current_char == '{' && Routine_ReadingBody && Routine_SubBlockLevel == 0 && !StringBlock)
+                    {
+                        Routine_ReadingBodyStarted = true;
+                        current_reading = "";
+                        continue;
+                    }
+
+
+                    if (current_char == '}' && Routine_SubBlockLevel == 0 && !StringBlock)
+                    {
+                        Routine_ReadingBody = false;
+                        Routine_ReadingBodyStarted = false;
+                        BlockBody = current_reading.Trim();
+
+                        Console.WriteLine(BlockBody);
+                        continue;
+                    }
+
+                    current_reading += current_char;
+                }
+
+                last_char = current_char;
+            }
+
+            return Output;
+        }
+
         // Main entry point
         static void Main(string[] args)
         {
@@ -203,7 +329,8 @@ namespace SunshineTaiyou
 
             List<TaiyouToken> tokens = new List<TaiyouToken>();
             tokens.AddRange(ParserGetAtDefinitions(ref SecondStepParserOutput));
-            
+            tokens.AddRange(ParsetGetAllBlocks(ref SecondStepParserOutput));
+
             foreach (TaiyouToken token in tokens)
             {
                 Console.WriteLine(token.ToString());

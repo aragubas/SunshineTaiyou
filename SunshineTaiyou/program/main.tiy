@@ -8,17 +8,25 @@
 */
 
 // Applies to the entire assembly
-@namespace ("main \"escape character\" ", "true", true)
+@namespace ("main \"escape character\" this is not a routine ", "true", true)
 @ceira ("sinas", false, 22, 2.4)
-
-routine (program)
-{
-    Log("Hello /* This should be visible */ \"escape characters!\"");
-    Log("Inside program routine")
-    Jump("second");	
-}
  
-routine (second)
+.routine (program, "this should be ignored)", " \"and this literal should work\"")
 {
-    Log("World");
+    Log("g")
+    if (ceia == sinas)
+    {
+        Log("if statement")
+		
+		if (sinas == ceira)
+        {
+		    Log("Nested if block")
+		
+        }
+    }
+}
+
+.routine (second, number)
+{
+    Log("World")
 }

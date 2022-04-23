@@ -19,13 +19,13 @@ using System.Collections.Generic;
 
 namespace SunshineTaiyou
 {
-    enum TaiyouTokenType
+    public enum TaiyouTokenType
     {
         AtDefinition,
         Instruction
     }
 
-    class TaiyouToken
+    public class TaiyouToken
     {
         public string Initiator;
         public object[] Parameters;
