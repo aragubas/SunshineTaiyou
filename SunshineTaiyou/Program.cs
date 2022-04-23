@@ -191,10 +191,10 @@ namespace SunshineTaiyou
             return Output;
         }
 
-        static List<TaiyouToken> ParsetGetAllBlocks(ref List<string> input)
+        static List<TaiyouBlock> ParserGetAllRoutineBlocks(ref List<string> input)
         {
             string ParsedSourceCode = "";
-            List<TaiyouToken> Output = new List<TaiyouToken>();
+            List<TaiyouBlock> Output = new List<TaiyouBlock>();
 
             foreach (string line in input) { ParsedSourceCode += $"{line}\n"; }
             ParsedSourceCode = ParsedSourceCode.Trim();
@@ -302,8 +302,8 @@ namespace SunshineTaiyou
                     {
                         BlockBody = current_reading.Trim();
 
-                        Console.WriteLine($"Block parameters: {BlockParameters} body:\n'{BlockBody}'");
-                        
+                        Output.Add(new TaiyouBlock("routine", BlockParameters, BlockBody));
+
                         Routine_ReadingBody = false;
                         Routine_ReadingBodyStarted = false;
                         RoutineBlock = false;
@@ -333,12 +333,13 @@ namespace SunshineTaiyou
             List<string> SecondStepParserOutput = ParserStepTwo(ref FirstStepParserOutput);
 
             List<TaiyouToken> tokens = new List<TaiyouToken>();
+            List<TaiyouBlock> blocks = new List<TaiyouBlock>();
             tokens.AddRange(ParserGetAtDefinitions(ref SecondStepParserOutput));
-            tokens.AddRange(ParsetGetAllBlocks(ref SecondStepParserOutput));
+            blocks.AddRange(ParserGetAllRoutineBlocks(ref SecondStepParserOutput));
 
-            foreach (TaiyouToken token in tokens)
+            foreach (TaiyouBlock block in blocks)
             {
-                Console.WriteLine(token.ToString());
+                Console.WriteLine(block.ToString());
             }
             
             //PrintList(SecondStepParserOutput);

@@ -19,11 +19,36 @@ namespace SunshineTaiyou
             InnerTokens = innerTokens;
         }
 
-        public TaiyouBlock(string initiator, string string_parameters, TaiyouToken[] innerTokens)
+        public TaiyouBlock(string initiator, string string_parameters, string body_string)
         {
             Initiator = initiator;
-            Parameters = Utils.ParseParametersString(string_parameters);
-            InnerTokens = innerTokens;
+            //Parameters = Utils.ParseParametersString(string_parameters);
         }
+
+
+        public override string ToString()
+        {
+            string parms_string = "";
+
+            if (Parameters != null)
+            {
+                for (int i = 0; i < Parameters.Length; i++)
+                {
+                    if (i == Parameters.Length - 1)
+                    {
+                        parms_string += Parameters[i].ToString();
+
+                    }
+                    else
+                    {
+                        parms_string += Parameters[i].ToString() + ", ";
+
+                    }
+                }
+            }
+
+            return $"TaiyouToken; Initiator: {Initiator}, Parameters: [{parms_string}]";
+        }
+
     }
 }

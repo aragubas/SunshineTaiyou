@@ -69,5 +69,6 @@ namespace SunshineTaiyou
 
             return $"TaiyouToken; Initiator: {Initiator}, Parameters: [{parms_string}], Type: {Type}";
         }
+
     }
 }
