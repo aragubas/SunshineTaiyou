@@ -22,7 +22,6 @@ namespace SunshineTaiyou
     enum TaiyouTokenType
     {
         AtDefinition,
-        FunctionDefinition,
         Instruction
     }
 
@@ -39,97 +38,14 @@ namespace SunshineTaiyou
             Type = type;
         }
 
-        public TaiyouToken(string initiator, string parameters_to_parse, TaiyouTokenType type)
+        public TaiyouToken(string initiator, string parameters_string, TaiyouTokenType type)
         {
             Initiator = initiator;
-            ParseParameters(parameters_to_parse);
+            Parameters = Utils.ParseParametersString(parameters_string);
             Type = type;
         }
 
         public TaiyouToken() { }
-
-        public void ParseParameters(string string_parameters)
-        {
-            // Step 1 - Convert parameter list to string list
-            List<string> str_parameters = new List<string>();
-
-            bool StringBlock = false;
-            string Output = "";
-
-            for (int i = 0; i < string_parameters.Length; i++)
-            {
-                char current_char = string_parameters[i];
-                
-                if ((i == 0 && current_char == '"') || (current_char == '"' && string_parameters[i - 1] != '\\'))
-                {
-                    StringBlock = !StringBlock;
-                }
-
-                // Forcibly Add last character
-                if (i == string_parameters.Length - 1)
-                {
-                    Output += current_char;
-                }
-
-                if (!StringBlock)
-                {
-                    if (current_char == ',' || i == string_parameters.Length - 1)
-                    {
-                        Output = Output.Trim();
-                        
-                        str_parameters.Add(Output);
-                        
-                        Output = "";
-                        continue;
-                    }
-                }
-
-                Output += current_char;
-            }
-
-            // Parse parsed parameters
-            List<object> parameters = new List<object>();
-
-            foreach (string parameter in str_parameters)
-            {
-                object value = null;
-
-                try
-                {
-                    if (parameter.StartsWith('"') && parameter.EndsWith('"'))
-                    {
-                        value = parameter.Substring(1, parameter.Length - 2);
-
-                    }
-                    else if (parameter == "true" || parameter == "false")
-                    {
-                        value = bool.Parse(parameter);
-
-                    }
-                    else if (parameter.Contains('.'))
-                    {
-                        value = float.Parse(parameter);
-
-                    }
-                    else
-                    {
-                        value = int.Parse(parameter);
-
-                    }
-
-                }
-                catch (FormatException)
-                {
-                    // Parameter invalid 
-                    throw new FormatException($"No suitable type found for parameter: '{parameter}'");
-                }
-
-                Console.WriteLine($"val: '{value}' type: {value.GetType()}");
-                parameters.Add(value);
-            }
-
-            Parameters = parameters.ToArray();
-        }
 
         public override string ToString()
         {
@@ -142,9 +58,11 @@ namespace SunshineTaiyou
                     if (i == Parameters.Length - 1)
                     {
                         parms_string += Parameters[i].ToString();
+
                     }else
                     {
                         parms_string += Parameters[i].ToString() + ", ";
+
                     }
                 }
             }

@@ -1,10 +1,10 @@
 ﻿/*
 
     Taiyou Script example
-	   2022 - Aragubas
+       2022 - Aragubas
 
-	@namespace ("name") <- At Definition, declares the namespace for this file.
-	routine (name)      <- Routine Declartion, Declares a routine.
+    @namespace ("name") <- At Definition, declares the namespace for this file.
+    routine (name)      <- Routine Declartion, Declares a routine.
 */
 
 // Applies to the entire assembly
@@ -13,9 +13,9 @@
 
 routine (program)
 {
-	Log("Hello /* This should be visible */ \"escape characters!\"");
-	Log("Inside program routine")
-	Jump("second");
+    Log("Hello /* This should be visible */ \"escape characters!\"");
+    Log("Inside program routine")
+    Jump("second");	
 }
  
 routine (second)

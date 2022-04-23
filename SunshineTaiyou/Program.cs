@@ -202,11 +202,11 @@ namespace SunshineTaiyou
             List<string> SecondStepParserOutput = ParserStepTwo(ref FirstStepParserOutput);
 
             List<TaiyouToken> tokens = new List<TaiyouToken>();
-
-            foreach(TaiyouToken token in ParserGetAtDefinitions(ref SecondStepParserOutput))
+            tokens.AddRange(ParserGetAtDefinitions(ref SecondStepParserOutput));
+            
+            foreach (TaiyouToken token in tokens)
             {
-                //Console.WriteLine(token.ToString());
-                tokens.Add(token);
+                Console.WriteLine(token.ToString());
             }
             
             //PrintList(SecondStepParserOutput);
