@@ -13,18 +13,8 @@
  
 .routine (program, "this should be ignored)", " \"and this literal should work\"")
 {
-    Log("g")
-    if (ceia == sinas)
-    {
-        Log("if statement")
-		
-		if (sinas == ceira)
-        {
-		    Log("Nested if block")
-		
-        }
-    }
-	
+    Log("Hello")
+	Jump(second)
 }
 
 .routine (second, number)

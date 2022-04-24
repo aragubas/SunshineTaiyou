@@ -22,7 +22,7 @@ namespace SunshineTaiyou
         public TaiyouBlock(string initiator, string string_parameters, string body_string)
         {
             Initiator = initiator;
-            //Parameters = Utils.ParseParametersString(string_parameters);
+            Parameters = Utils.ParseParametersString(ref string_parameters, true, SymbolContext.BlockParameters);
         }
 
 
@@ -34,14 +34,21 @@ namespace SunshineTaiyou
             {
                 for (int i = 0; i < Parameters.Length; i++)
                 {
+                    string value_string = $"{Parameters[i].GetType()}; '{Parameters[i].ToString()}'";
+
+                    if (Parameters[i].GetType() == typeof (TaiyouSymbol))
+                    {
+                        value_string = $"TaiyouSymbol; Name: '{(Parameters[i] as TaiyouSymbol).Name}'";
+                    }
+                    
                     if (i == Parameters.Length - 1)
                     {
-                        parms_string += Parameters[i].ToString();
+                        parms_string += value_string;
 
                     }
                     else
                     {
-                        parms_string += Parameters[i].ToString() + ", ";
+                        parms_string += value_string + ", ";
 
                     }
                 }

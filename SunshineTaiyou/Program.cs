@@ -337,11 +337,18 @@ namespace SunshineTaiyou
             tokens.AddRange(ParserGetAtDefinitions(ref SecondStepParserOutput));
             blocks.AddRange(ParserGetAllRoutineBlocks(ref SecondStepParserOutput));
 
+            Console.WriteLine("ToplevelToken:");
+            foreach (TaiyouToken token in tokens)
+            {
+                Console.WriteLine(token.ToString());
+            }
+
+            Console.WriteLine("\n\nTaiyouBlock:");
             foreach (TaiyouBlock block in blocks)
             {
                 Console.WriteLine(block.ToString());
             }
-            
+
             //PrintList(SecondStepParserOutput);
         }
     }

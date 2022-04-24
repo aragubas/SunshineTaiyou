@@ -8,7 +8,17 @@ namespace SunshineTaiyou
 {
     public static class Utils
     {
-        public static object[] ParseParametersString(string input)
+        public static bool IsOnlyDigits(ref string input)
+        {
+            foreach (char c in input)
+            {
+                if (!char.IsNumber(c))
+                    return false;
+            }
+            return true;
+        }
+
+        public static object[] ParseParametersString(ref string input, bool HandleUnknowAsSymbol=false, SymbolContext UnknownSymbolContext=SymbolContext.None)
         {
             // Step 1 - Convert parameter list to string list
             List<string> str_parameters = new List<string>();
@@ -87,8 +97,15 @@ namespace SunshineTaiyou
                 }
                 catch (FormatException)
                 {
-                    // Parameter invalid 
-                    throw new FormatException($"No suitable type found for parameter: '{parameter}'");
+                    if (HandleUnknowAsSymbol)
+                    {
+                        value = new TaiyouSymbol(parameter, UnknownSymbolContext);
+                    }
+                    else
+                    {
+                        // Parameter invalid 
+                        throw new FormatException($"No suitable type found for parameter: '{parameter}'");
+                    }
                 }
 
                 parameters.Add(value);

@@ -41,7 +41,7 @@ namespace SunshineTaiyou
         public TaiyouToken(string initiator, string parameters_string, TaiyouTokenType type)
         {
             Initiator = initiator;
-            Parameters = Utils.ParseParametersString(parameters_string);
+            Parameters = Utils.ParseParametersString(ref parameters_string);
             Type = type;
         }
 
@@ -57,11 +57,11 @@ namespace SunshineTaiyou
                 {
                     if (i == Parameters.Length - 1)
                     {
-                        parms_string += Parameters[i].ToString();
+                        parms_string += $"{Parameters[i].GetType()}; '{Parameters[i].ToString()}'";
 
                     }else
                     {
-                        parms_string += Parameters[i].ToString() + ", ";
+                        parms_string += $"{Parameters[i].GetType()}; '{Parameters[i].ToString()}', ";
 
                     }
                 }
