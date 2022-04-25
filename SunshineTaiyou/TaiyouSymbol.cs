@@ -9,7 +9,10 @@ namespace SunshineTaiyou
     public enum SymbolContext
     {
         None,
-        BlockParameters
+        BlockParameters,
+        Assignment,
+        MethodReference,
+        MethodParameters
     }
 
     public class TaiyouSymbol

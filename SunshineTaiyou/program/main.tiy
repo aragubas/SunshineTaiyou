@@ -18,10 +18,11 @@
 	double::Test3 = 2.4;
 	bool::Test4 = true;
 
-	Test = "this is a string";
+	Test = "assignment string!!";
+
+    second(42);
 }
 
 .routine (second, number)
 {
-    Log("World")
 }
