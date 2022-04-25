@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2021 Aragubas
+    Copyright 2022 Aragubas
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -19,24 +19,6 @@ using System.Collections.Generic;
 
 namespace SunshineTaiyou
 {
-    public class AtDefinition : TaiyouToken
-    {
-        public AtDefinition(string DefinitionName, object[] Parameters)
-        {
-            this.Name = DefinitionName;
-            this.Parameters = Parameters;
-        }
-
-        public AtDefinition(string DefinitionName, string ParametersString)
-        {
-            this.Name = DefinitionName;
-            this.Parameters = Utils.ParseParametersString(ref ParametersString);
-        }
-
-        public AtDefinition() { }
-    }
-    
-
     public abstract class TaiyouToken
     {
         public string Name;
