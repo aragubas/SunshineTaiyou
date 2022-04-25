@@ -23,8 +23,8 @@ namespace SunshineTaiyou
         {
             Initiator = initiator;
             Parameters = Utils.ParseParametersString(ref string_parameters, true, SymbolContext.BlockParameters);
+            InnerTokens = Parsers.MethodParser(ref body_string);
         }
-
 
         public override string ToString()
         {
@@ -54,7 +54,7 @@ namespace SunshineTaiyou
                 }
             }
 
-            return $"TaiyouToken; Initiator: {Initiator}, Parameters: [{parms_string}]";
+            return $"TaiyouBlock; Initiator: {Initiator}, Parameters: [{parms_string}]";
         }
 
     }

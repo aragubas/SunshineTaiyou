@@ -19,30 +19,39 @@ using System.Collections.Generic;
 
 namespace SunshineTaiyou
 {
-    public enum TaiyouTokenType
+    public class AtDefinition : TaiyouToken
     {
-        AtDefinition,
-        Instruction
-    }
-
-    public class TaiyouToken
-    {
-        public string Initiator;
-        public object[] Parameters;
-        public TaiyouTokenType Type;
-
-        public TaiyouToken(string initiator, object[] parameters, TaiyouTokenType type)
+        public AtDefinition(string DefinitionName, object[] Parameters)
         {
-            Initiator = initiator;
-            Parameters = parameters;
-            Type = type;
+            this.Name = DefinitionName;
+            this.Parameters = Parameters;
         }
 
-        public TaiyouToken(string initiator, string parameters_string, TaiyouTokenType type)
+        public AtDefinition(string DefinitionName, string ParametersString)
         {
-            Initiator = initiator;
+            this.Name = DefinitionName;
+            this.Parameters = Utils.ParseParametersString(ref ParametersString);
+        }
+
+        public AtDefinition() { }
+    }
+    
+
+    public abstract class TaiyouToken
+    {
+        public string Name;
+        public object[] Parameters;
+
+        public TaiyouToken(string initiator, object[] parameters)
+        {
+            Name = initiator;
+            Parameters = parameters;
+        }
+
+        public TaiyouToken(string initiator, string parameters_string)
+        {
+            Name = initiator;
             Parameters = Utils.ParseParametersString(ref parameters_string);
-            Type = type;
         }
 
         public TaiyouToken() { }
@@ -67,7 +76,7 @@ namespace SunshineTaiyou
                 }
             }
 
-            return $"TaiyouToken; Initiator: {Initiator}, Parameters: [{parms_string}], Type: {Type}";
+            return $"{this.GetType().Name}Token; Name: {Name}, Parameters: [{parms_string}]";
         }
 
     }

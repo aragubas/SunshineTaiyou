@@ -11,10 +11,14 @@
 @namespace ("main \"escape character\" this is not a routine ", "true", true)
 @ceira ("sinas", false, 22, 2.4)
  
-.routine (program, "this should be ignored)", " \"and this literal should work\"")
+.routine (program, "this should be ignored)", "\"and this literal should work\"")
 {
-    Log("Hello")
-	Jump(second)
+    string::Test = "this is a string";
+	int::Test2 = 42;
+	double::Test3 = 2.4;
+	bool::Test4 = true;
+
+	Test = "this is a string";
 }
 
 .routine (second, number)

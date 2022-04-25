@@ -130,7 +130,7 @@ namespace SunshineTaiyou
             bool StringBlock = false;
             string AtName = "";
             string AtBody = "";
-            TaiyouToken atToken = new TaiyouToken();
+            TaiyouToken atToken = new AtDefinition();
             char last_char = ' ';
 
             for (int i = 0; i < ParsedSourceCode.Length; i++)
@@ -164,7 +164,7 @@ namespace SunshineTaiyou
                 {
                     AtBody = AtBody.Trim();
 
-                    atToken = new TaiyouToken(AtName, AtBody, TaiyouTokenType.AtDefinition);
+                    atToken = new AtDefinition(AtName, AtBody);
 
                     Output.Add(atToken);
 
@@ -201,7 +201,6 @@ namespace SunshineTaiyou
 
             string BlockParameters = "";
             string BlockBody = "";
-            TaiyouToken blockToken = new TaiyouToken();
             char last_char = ' ';
             string current_reading = "";
             string routine_latch = "";
@@ -301,7 +300,6 @@ namespace SunshineTaiyou
                     if (current_char == '}' && Routine_SubBlockLevel == 0 && !StringBlock)
                     {
                         BlockBody = current_reading.Trim();
-
                         Output.Add(new TaiyouBlock("routine", BlockParameters, BlockBody));
 
                         Routine_ReadingBody = false;
@@ -343,7 +341,7 @@ namespace SunshineTaiyou
                 Console.WriteLine(token.ToString());
             }
 
-            Console.WriteLine("\n\nTaiyouBlock:");
+            Console.WriteLine("\nTaiyouBlock:");
             foreach (TaiyouBlock block in blocks)
             {
                 Console.WriteLine(block.ToString());
