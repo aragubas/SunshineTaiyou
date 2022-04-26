@@ -29,12 +29,8 @@ namespace SunshineTaiyou
         static void PrintLogo()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("TaiyouScript Compiler (tysc) ");
+            Console.WriteLine($"TaiyouScript Compiler (tysc) v{Version[0]}.{Version[1]}.{Version[2]}-{BuildChannel} ");
             Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"v{Version[0]}.{Version[1]}.{Version[2]}-{BuildChannel} ");
-            Console.ResetColor();
-            Console.Write($"on {Environment.OSVersion.Platform}\n");
         }
 
         // Main entry point
