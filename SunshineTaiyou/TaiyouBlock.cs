@@ -6,24 +6,37 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    public class TaiyouBlock
-    {
-        public string Initiator;
-        public object[] Parameters;
-        public TaiyouToken[] InnerTokens;
+    public enum TaiyouBlockType
+    { 
+        Invalid,
+        Routine,
+        Conditional
+    }
 
-        public TaiyouBlock(string initiator, object[] parameters, TaiyouToken[] innerTokens)
-        {
-            Initiator = initiator;
-            Parameters = parameters;
-            InnerTokens = innerTokens;
-        }
+    public class TaiyouBlock : TaiyouToken
+    {
+        public TaiyouBlockType Type;
+        public TaiyouToken[] InnerTokens;
 
         public TaiyouBlock(string initiator, string string_parameters, string body_string)
         {
-            Initiator = initiator;
+            Type = ParseBlockType(ref initiator);
             Parameters = Utils.ParseParametersString(ref string_parameters, true, SymbolContext.BlockParameters);
             InnerTokens = Parsers.MethodParser(ref body_string);
+        }
+
+        public static TaiyouBlockType ParseBlockType(ref string input)
+        {
+            switch (input.Trim().ToLower())
+            {
+                case "routine":
+                    return TaiyouBlockType.Routine;
+
+                case "if":
+                    return TaiyouBlockType.Conditional;
+            }
+
+            return TaiyouBlockType.Invalid;
         }
 
         public override string ToString()
@@ -63,7 +76,7 @@ namespace SunshineTaiyou
                 }
             }
 
-            return $"TaiyouBlock; Initiator: {Initiator}, Parameters: [{parms_string}], InnerTokens: [\n{inner_token_string}]";
+            return $"TaiyouBlock; Type: {Type}, Parameters: [{parms_string}], InnerTokens: [\n\n{inner_token_string}\n\n]";
         }
 
     }

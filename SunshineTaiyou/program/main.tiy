@@ -19,14 +19,18 @@
 	bool::Test4 = true;
 
 	Test = "assignment string!!";
-     
+
 	if (ceira == "sinas")
 	{
 		int::Ceira = 42;
 
 		second(Ceira)
 
-		
+		if (Ceira == 42) 
+		{ 
+			second(24) 
+			if (Sinas == Ceira) { third() }
+		}
     }
  	 
  
@@ -35,4 +39,9 @@
 
 .routine (second, number)
 {
+}
+
+.routine (third)
+{
+	Log("Ceira")
 }

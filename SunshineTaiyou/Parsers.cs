@@ -24,6 +24,7 @@ namespace SunshineTaiyou
             bool VariableAssignment = false;
             bool MethodCalling = false;
             bool InnerBlockStatement = false;
+            int InnerBlockStatementLevel = 0;
             bool InnerBlockStatementHeadDefined = false;
             string StatementBlockType = "";
             string StatementBlockParameters = "";
@@ -36,6 +37,7 @@ namespace SunshineTaiyou
             VariableDefinition VariableDeclarationToken = null;
             TokenTypes.VariableAssignment VariableAssignmentToken = null;
             TokenTypes.MethodCalling MethodCallingToken = null;
+            TaiyouBlock InnerBlock = null;
 
             for (int i = 0; i < input.Length; i++)
             {
@@ -47,7 +49,7 @@ namespace SunshineTaiyou
                 }
                 
                 // Type definition symbol
-                if (current_char == ':' && last_char == ':' && !StringBlock)
+                if (current_char == ':' && last_char == ':' && !StringBlock & !InnerBlockStatement)
                 {
                     VariableType = current_reading.Remove(current_reading.Length - 1).Trim();
                     VariableDeclaration = true;
@@ -57,7 +59,7 @@ namespace SunshineTaiyou
                 }
 
                 // Assign Symbol
-                if (current_char == '=' && !StringBlock && (!InnerBlockStatement || InnerBlockStatement && InnerBlockStatementHeadDefined))
+                if (current_char == '=' && !StringBlock && !InnerBlockStatement)
                 {
                     // Currently declaring a variable
                     if (VariableDeclaration)
@@ -80,7 +82,7 @@ namespace SunshineTaiyou
                 }
 
                 // Ending symbol
-                if (current_char == ';' && !StringBlock)
+                if (current_char == ';' && !StringBlock && !InnerBlockStatement)
                 {
                     // If currently declaring a variable
                     if (VariableDeclaration)
@@ -117,12 +119,12 @@ namespace SunshineTaiyou
                 }
 
                 // Argument list start symbol
-                if (current_char == '(' && !StringBlock && !VariableDeclaration && !VariableAssignment)
+                if (current_char == '(' && !StringBlock && !VariableDeclaration && !VariableAssignment && !InnerBlockStatement)
                 {
                     current_reading = current_reading.Trim();
 
-                    // If currently in a if block statement
-                    if (current_reading == "if")
+                    // If currently in a if block statement 
+                    if (current_reading == "if" && InnerBlockStatementLevel == 0)
                     {
                         InnerBlockStatement = true;
                         StatementBlockType = "if";
@@ -144,12 +146,13 @@ namespace SunshineTaiyou
                     // If currently in a statement block
                     if (InnerBlockStatement)
                     {
-                        if (!InnerBlockStatementHeadDefined)
+                        if (!InnerBlockStatementHeadDefined && InnerBlockStatementLevel == 0)
                         {
                             StatementBlockParameters = current_reading.Trim();
                             InnerBlockStatementHeadDefined = true;
 
-                        }else
+                        }
+                        else
                         {
                             current_reading += current_char;
                             continue;
@@ -176,12 +179,36 @@ namespace SunshineTaiyou
 
                 if (current_char == '{' && InnerBlockStatement && !StringBlock)
                 {
+                    InnerBlockStatementLevel++;
+
+                    if (InnerBlockStatementLevel > 1)
+                    {
+                        current_reading += current_char;
+                    }
                     continue;
                 }
 
                 if (current_char == '}' && InnerBlockStatement && !StringBlock)
                 {
-                    StatementBlockBody = current_reading.Trim();
+                    InnerBlockStatementLevel--;
+
+                    if (InnerBlockStatementLevel == 0)
+                    {
+                        // Ends block statement
+                        StatementBlockBody = current_reading.Trim();
+
+                        InnerBlock = new TaiyouBlock(StatementBlockType, StatementBlockParameters, StatementBlockBody);
+
+                        Output.Add(InnerBlock);
+
+                        InnerBlockStatement = false;
+                        InnerBlockStatementHeadDefined = false;
+                        StatementBlockBody = "";
+                        StatementBlockParameters = "";
+                        StatementBlockType = "";
+                        current_reading = "";
+                        continue;
+                    }
 
 
                 }
