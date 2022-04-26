@@ -46,7 +46,7 @@ namespace SunshineTaiyou.TokenTypes
             }
 
 
-            return $"{this.GetType().Name}Token; SymbolicName: {Symbol}, Parameters: [{parameters_string}]";
+            return $"{this.GetType().Name}Token; SymbolicName: {Symbol.Name}, Parameters: [{parameters_string}]";
         }
     }
 }
