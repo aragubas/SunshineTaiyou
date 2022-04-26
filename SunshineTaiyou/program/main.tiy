@@ -20,7 +20,17 @@
 
 	Test = "assignment string!!";
      
-    second(42)
+	if (ceira == "sinas")
+	{
+		int::Ceira = 42;
+
+		second(Ceira)
+
+		
+    }
+ 	 
+ 
+	second(666)
 }
 
 .routine (second, number)

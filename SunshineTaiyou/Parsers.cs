@@ -23,6 +23,11 @@ namespace SunshineTaiyou
             bool VariableDeclaration = false;
             bool VariableAssignment = false;
             bool MethodCalling = false;
+            bool InnerBlockStatement = false;
+            bool InnerBlockStatementHeadDefined = false;
+            string StatementBlockType = "";
+            string StatementBlockParameters = "";
+            string StatementBlockBody = "";
             string VariableType = "";
             string VariableName = "";
             string VariableBody = "";
@@ -52,7 +57,7 @@ namespace SunshineTaiyou
                 }
 
                 // Assign Symbol
-                if (current_char == '=' && !StringBlock)
+                if (current_char == '=' && !StringBlock && (!InnerBlockStatement || InnerBlockStatement && InnerBlockStatementHeadDefined))
                 {
                     // Currently declaring a variable
                     if (VariableDeclaration)
@@ -114,10 +119,21 @@ namespace SunshineTaiyou
                 // Argument list start symbol
                 if (current_char == '(' && !StringBlock && !VariableDeclaration && !VariableAssignment)
                 {
-                    // If currently calling a method
-                    MethodCalling = true;
+                    current_reading = current_reading.Trim();
 
-                    MethodName = current_reading.Trim();
+                    // If currently in a if block statement
+                    if (current_reading == "if")
+                    {
+                        InnerBlockStatement = true;
+                        StatementBlockType = "if";
+
+                    }else
+                    {
+                        // If currently calling a method
+                        MethodCalling = true;
+
+                        MethodName = current_reading.Trim();
+                    }
 
                     current_reading = "";
                     continue;
@@ -125,13 +141,31 @@ namespace SunshineTaiyou
 
                 if (current_char == ')' && !StringBlock && !VariableDeclaration && !VariableAssignment)
                 {
-                    MethodCalling = false;
+                    // If currently in a statement block
+                    if (InnerBlockStatement)
+                    {
+                        if (!InnerBlockStatementHeadDefined)
+                        {
+                            StatementBlockParameters = current_reading.Trim();
+                            InnerBlockStatementHeadDefined = true;
 
-                    MethodBody = current_reading.Trim();
+                        }else
+                        {
+                            current_reading += current_char;
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        // Finished method calling
+                        MethodCalling = false;
 
-                    MethodCallingToken = new TokenTypes.MethodCalling(MethodName, MethodBody);
+                        MethodBody = current_reading.Trim();
 
-                    Output.Add(MethodCallingToken);
+                        MethodCallingToken = new TokenTypes.MethodCalling(MethodName, MethodBody);
+
+                        Output.Add(MethodCallingToken);
+                    }
 
                     current_reading = "";
                     MethodBody = "";
@@ -140,6 +174,17 @@ namespace SunshineTaiyou
                     continue;
                 }
 
+                if (current_char == '{' && InnerBlockStatement && !StringBlock)
+                {
+                    continue;
+                }
+
+                if (current_char == '}' && InnerBlockStatement && !StringBlock)
+                {
+                    StatementBlockBody = current_reading.Trim();
+
+
+                }
 
                 current_reading += current_char;
                 last_char = current_char;
