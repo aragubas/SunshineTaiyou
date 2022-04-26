@@ -19,8 +19,8 @@
 	bool::Test4 = true;
 
 	Test = "assignment string!!";
-
-    second(42);
+     
+    second(42)
 }
 
 .routine (second, number)

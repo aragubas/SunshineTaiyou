@@ -44,7 +44,7 @@ namespace SunshineTaiyou
                 // Type definition symbol
                 if (current_char == ':' && last_char == ':' && !StringBlock)
                 {
-                    VariableType = current_reading.Remove(current_reading.Length - 1);
+                    VariableType = current_reading.Remove(current_reading.Length - 1).Trim();
                     VariableDeclaration = true;
 
                     current_reading = "";

@@ -20,5 +20,10 @@ namespace SunshineTaiyou
             Value = Utils.ParseParametersString(ref value)[0];
         }
 
+        public override string ToString()
+        {
+            return $"{this.GetType().Name}Token; Name: {Name}, Type: {VariableType}, Value: '{Value}'";
+        }
+
     }
 }

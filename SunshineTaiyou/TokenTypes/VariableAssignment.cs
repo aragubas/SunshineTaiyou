@@ -16,5 +16,10 @@ namespace SunshineTaiyou.TokenTypes
             Name = new TaiyouSymbol(name, SymbolContext.Assignment);
             Value = Utils.ParseParametersString(ref value, true, SymbolContext.Assignment)[0];
         }
+
+        public override string ToString()
+        {
+            return $"{this.GetType().Name}Token; SymbolicName: {Name.Name}, Value: '{Value}'";
+        }
     }
 }

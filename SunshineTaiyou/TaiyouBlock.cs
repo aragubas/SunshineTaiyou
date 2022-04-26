@@ -29,6 +29,7 @@ namespace SunshineTaiyou
         public override string ToString()
         {
             string parms_string = "";
+            string inner_token_string = "";
 
             if (Parameters != null)
             {
@@ -40,7 +41,7 @@ namespace SunshineTaiyou
                     {
                         value_string = $"TaiyouSymbol; Name: '{(Parameters[i] as TaiyouSymbol).Name}'";
                     }
-                    
+
                     if (i == Parameters.Length - 1)
                     {
                         parms_string += value_string;
@@ -54,7 +55,15 @@ namespace SunshineTaiyou
                 }
             }
 
-            return $"TaiyouBlock; Initiator: {Initiator}, Parameters: [{parms_string}]";
+            if (InnerTokens != null)
+            {
+                for (int i = 0; i < InnerTokens.Length; i++)
+                {
+                    inner_token_string += $" -{InnerTokens[i].ToString()}\n";
+                }
+            }
+
+            return $"TaiyouBlock; Initiator: {Initiator}, Parameters: [{parms_string}], InnerTokens: [\n{inner_token_string}]";
         }
 
     }
