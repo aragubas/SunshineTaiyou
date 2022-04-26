@@ -28,15 +28,10 @@ namespace SunshineTaiyou
     {
         public AtDefinitionType Type;
 
-        public AtDefinition(string DefinitionName, object[] Parameters)
+        public AtDefinition(string atType, string ParametersString)
         {
-            this.Name = DefinitionName;
-            this.Parameters = Parameters;
-        }
+            Type = Parsers.ParseAtDefinitionType(ref atType);
 
-        public AtDefinition(string DefinitionName, string ParametersString)
-        {
-            this.Name = DefinitionName;
             this.Parameters = Utils.ParseParametersString(ref ParametersString);
         }
 

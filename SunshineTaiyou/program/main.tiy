@@ -10,7 +10,6 @@
 // Applies to the entire assembly
 @namespace ("Main")
 @import ("Core")
-@ceira ("sinas", false, 22, 2.4)
  
 .routine (program, "this should be ignored)", "\"and this literal should work\"")
 {
