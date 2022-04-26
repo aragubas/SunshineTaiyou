@@ -3,7 +3,23 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo> 
-    <TargetFramework>netcoreapp6</TargetFramework>
+    <TargetFramework>netcoreapp6</TargetFramework> 
+    <Description>Compiler toolchain for Sunshine Taiyou project.</Description> 
+    <Copyright>2022 Aragubas - Licensed under Apache 2.0</Copyright> 
+    <PackageProjectUrl></PackageProjectUrl> 
+    <RepositoryUrl>https://github.com/aragubas/sunshinetaiyou</RepositoryUrl> 
+    <RepositoryType>git</RepositoryType> 
+    <AssemblyVersion>1.0.0</AssemblyVersion> 
+    <FileVersion>1.0.0</FileVersion> 
+    <SignAssembly>False</SignAssembly> 
+    <AssemblyName>SunshineTaiyouCompiler</AssemblyName> 
+    <StartupObject>SunshineTaiyou.Program</StartupObject> 
+    <Version>1.0.0</Version> 
+    <Authors>Aragubas</Authors> 
+    <Company>Aragubas</Company> 
+    <Product>SunshineTaiyou Compiler</Product> 
+    <PackageTags>compiler</PackageTags> 
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 
   </PropertyGroup>
 

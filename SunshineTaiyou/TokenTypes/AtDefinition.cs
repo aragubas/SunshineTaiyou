@@ -16,8 +16,18 @@
 
 namespace SunshineTaiyou
 {
+    public enum AtDefinitionType
+    { 
+        Invalid,
+        @namespace,
+        import,
+        option
+    }
+
     public class AtDefinition : TaiyouToken
     {
+        public AtDefinitionType Type;
+
         public AtDefinition(string DefinitionName, object[] Parameters)
         {
             this.Name = DefinitionName;

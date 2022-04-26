@@ -76,7 +76,7 @@ namespace SunshineTaiyou
                 }
             }
 
-            return $"TaiyouBlock; Type: {Type}, Parameters: [{parms_string}], InnerTokens: [\n\n{inner_token_string}\n\n]";
+            return $"TaiyouBlock; Type: {Type}, Parameters: [{parms_string}], InnerTokens: [{inner_token_string}]";
         }
 
     }
