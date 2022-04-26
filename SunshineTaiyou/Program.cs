@@ -28,19 +28,74 @@ namespace SunshineTaiyou
 
         static void PrintLogo()
         {
-            Console.WriteLine($"TaiyouScript Compiler (tysc) v{Version[0]}.{Version[1]}.{Version[2]}-{BuildChannel}");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("TaiyouScript Compiler (tysc) ");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"v{Version[0]}.{Version[1]}.{Version[2]}-{BuildChannel} ");
+            Console.ResetColor();
+            Console.Write($"on {Environment.OSVersion.Platform}\n");
         }
+
         // Main entry point
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            PrintLogo();
+            bool NoLogo = false;
+            bool CustomSourceFolder_Latch = false;
+            string CustomSourceFolder = "";
+            bool CustomLogLevel_Latch = false;
+            int LogLevel = -1;
+
+            foreach (string arg in args)
+            {
+                // Next argument should be specified custom source folder
+                if (CustomSourceFolder_Latch)
+                {
+                    CustomSourceFolder = arg;
+                    CustomSourceFolder_Latch = false;
+                    continue;
+                }
+
+                if (CustomLogLevel_Latch)
+                {
+                    try
+                    {
+                        LogLevel = int.Parse(arg);
+                        CustomLogLevel_Latch = false;
+                    }
+                    catch
+                    {
+                        Log.Error("Invalid log level specified.");
+                        return -1;
+                    }
+                }
+
+                if (arg == "-nologo")
+                {
+                    NoLogo = true;
+                }
+
+                if (arg == "-source")
+                {
+                    CustomSourceFolder_Latch = true;
+                }
+
+                if (arg == "-log")
+                {
+                    CustomLogLevel_Latch = true;
+                }
+
+            }
+
+            if (!NoLogo) { PrintLogo(); }
+            Log.LogLevel = LogLevel;
 
             //
             // Reads and parses the main assembly
             //
             TaiyouAssembly mainAssembly = new TaiyouAssembly("./program/main.tiy");
 
-            
+            return 0;
         }
     }
 }

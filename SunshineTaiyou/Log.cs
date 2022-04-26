@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SunshineTaiyou.Log
+namespace SunshineTaiyou
 {
     public enum LogLevel
     { 
@@ -17,7 +17,7 @@ namespace SunshineTaiyou.Log
         public static int LogLevel = 0;
 
         // Errors are always logged, no matter what
-        public static void Error(ref string message)
+        public static void Error(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;
 
@@ -28,9 +28,9 @@ namespace SunshineTaiyou.Log
             Console.Write($": {message}{Environment.NewLine}");
         }
 
-        public static void Warning(ref string message)
+        public static void Warning(string message)
         {
-            if (LogLevel < (int)SunshineTaiyou.Log.LogLevel.Warning) { return; }
+            if (LogLevel < (int)SunshineTaiyou.LogLevel.Warning) { return; }
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
 
@@ -40,9 +40,9 @@ namespace SunshineTaiyou.Log
             Console.Write($": {message}{Environment.NewLine}");
         }
 
-        public static void Info(ref string message)
+        public static void Info(string message)
         {
-            if (LogLevel < (int)SunshineTaiyou.Log.LogLevel.Info) { return; }
+            if (LogLevel < (int)SunshineTaiyou.LogLevel.Info) { return; }
 
             Console.WriteLine($"Info: {message}");
         }
