@@ -17,7 +17,7 @@ namespace SunshineTaiyou
         public static int LogLevel = 0;
 
         // Errors are always logged, no matter what
-        public static void Error(string message)
+        public static void Error(string message, bool WriteOnly = false)
         {
             Console.ForegroundColor = ConsoleColor.Red;
 
@@ -25,26 +25,52 @@ namespace SunshineTaiyou
 
             Console.ResetColor();
 
-            Console.Write($": {message}{Environment.NewLine}");
+            if (!WriteOnly)
+            {
+                Console.WriteLine($": {message}");
+                
+            }else
+            {
+                Console.Write($": {message}");
+                
+            }
+
         }
 
-        public static void Warning(string message)
+        public static void Warning(string message, bool WriteOnly = false)
         {
             if (LogLevel < (int)SunshineTaiyou.LogLevel.Warning) { return; }
 
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.ForegroundColor = ConsoleColor.Yellow;
 
             Console.Write($"Warning");
+            
             Console.ResetColor();
 
-            Console.Write($": {message}{Environment.NewLine}");
+            if (!WriteOnly)
+            {
+                Console.WriteLine($": {message}");
+
+            }
+            else
+            {
+                Console.Write($": {message}");
+
+            }
         }
 
-        public static void Info(string message)
+        public static void Info(string message, bool WriteOnly = false)
         {
             if (LogLevel < (int)SunshineTaiyou.LogLevel.Info) { return; }
 
-            Console.WriteLine($"Info: {message}");
+            if (!WriteOnly)
+            {
+                Console.WriteLine($"{message}");
+
+            }else
+            {
+                Console.Write($"{message}");
+            }
         }
     }
 }

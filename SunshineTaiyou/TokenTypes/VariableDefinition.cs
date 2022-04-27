@@ -8,8 +8,8 @@ namespace SunshineTaiyou
 {
     public class VariableDefinition : TaiyouToken
     {
-        string VariableType = "";
-        object Value;
+        public string VariableType = "";
+        public object Value;
         
         public VariableDefinition() { }
 

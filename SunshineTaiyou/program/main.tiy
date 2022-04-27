@@ -10,8 +10,7 @@
 // Applies to the entire assembly
 @namespace ("Main")
 @import ("Core")
-@import ("Core.Graphics")
- 
+  
 .routine (program, "this should be ignored)", "\"and this literal should work\"")
 {
     string::Test = "this is a string";
@@ -30,6 +29,7 @@
  	 
  
 	second(666)
+	HelloWorld()
 }
 
 .routine (second, number)

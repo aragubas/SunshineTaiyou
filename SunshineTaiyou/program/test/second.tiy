@@ -1,0 +1,14 @@
+﻿/*
+
+    Taiyou Script example
+       2022 - Aragubas
+*/
+
+// Applies to the entire assembly
+@namespace ("Main")
+@import ("Core")
+ 
+.routine (HelloWorld)
+{
+    Log("HelloWorld")
+}

@@ -19,13 +19,35 @@
     <Company>Aragubas</Company> 
     <Product>SunshineTaiyou Compiler</Product> 
     <PackageTags>compiler</PackageTags> 
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild> 
+    <GenerateDocumentationFile>True</GenerateDocumentationFile> 
+    <DebugType>portable</DebugType> 
+    <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
 
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="program/**"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
     
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="program\Thing\second.tiy" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="program\test\second.tiy" />
+    <None Remove="program\Thing\second.tiy" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="program\Thing\second.tiy">
+      <Generator></Generator>
+    </Page>
   </ItemGroup>
 
 </Project>

@@ -8,8 +8,8 @@ namespace SunshineTaiyou.TokenTypes
 {
     public class MethodCalling : TaiyouToken
     {
-        TaiyouSymbol Symbol;
-        object[] Arguments;
+        public TaiyouSymbol Symbol;
+        public object[] Arguments;
 
         public MethodCalling(string name, string parameters_string)
         {

@@ -10,21 +10,17 @@ namespace SunshineTaiyou
 {
     public class TaiyouAssembly
     {
-        string AssemblyName;
+        public string AssemblyName;
         string[] SourceCode;
-        string Namespace = null;
-        string[] Imports;
-        List<TaiyouToken> TopLevelTokens = new List<TaiyouToken>();
-        List<TaiyouBlock> TopLevelBlocks = new List<TaiyouBlock>();
+        public string Namespace = null;
+        public string[] Imports;
+        public List<TaiyouToken> TopLevelTokens = new List<TaiyouToken>();
+        public List<TaiyouBlock> TopLevelBlocks = new List<TaiyouBlock>();
 
         public TaiyouAssembly(string FilePath)
         {
             SourceCode = File.ReadAllLines(FilePath);
-            AssemblyName = Path.GetRelativePath("./", FilePath).Replace("\\", "/");
-
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"Compiling assembly {AssemblyName}...");
-            Console.ResetColor();
+            AssemblyName = Path.GetRelativePath("./", FilePath).Replace("\\", ".").Replace("/", ".");
 
             List<string> FirstStepParserOutput = Parsers.ParserStepOne(ref SourceCode);
             List<string> SecondStepParserOutput = Parsers.ParserRemoveInlineBlockComments(ref FirstStepParserOutput);
@@ -33,10 +29,6 @@ namespace SunshineTaiyou
             TopLevelBlocks.AddRange(Parsers.ParserGetTopLevelRoutineBlocks(ref SecondStepParserOutput));
 
             CompileTopLevelTokens();
-
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Done!");
-            Console.ResetColor();
         }
 
         void CompileTopLevelTokens()
@@ -82,9 +74,10 @@ namespace SunshineTaiyou
                         }
 
                         ParsedImports.Add((string)atToken.Parameters[0]);
-                        //Console.Write($"\tAdded import '{(string)atToken.Parameters[0]}'\n");
                     }
                 }
+
+                Imports = ParsedImports.ToArray();
             }
 
         }

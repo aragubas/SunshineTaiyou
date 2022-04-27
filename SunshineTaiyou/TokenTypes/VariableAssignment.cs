@@ -8,8 +8,8 @@ namespace SunshineTaiyou.TokenTypes
 {
     public class VariableAssignment : TaiyouToken
     {
-        new TaiyouSymbol Name;
-        object Value;
+        public new TaiyouSymbol Name;
+        public object Value;
 
         public VariableAssignment(string name, string value)
         {
