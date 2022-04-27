@@ -43,7 +43,7 @@ namespace SunshineTaiyou
             bool NoLogo = false;
             bool CustomSourceFolder_Latch = false;
             bool CustomLogLevel_Latch = false;
-            int LogLevel = -1;
+            int LogLevel = 1;
             bool CustomOutputFolder_Latch = false;
             string SourceFolder = "./program/";
             string OutputFolder = "./output/";
@@ -106,14 +106,21 @@ namespace SunshineTaiyou
             if (!NoLogo) { PrintLogo(); }
             Log.LogLevel = LogLevel;
 
+            // Check if source directory exists
+            if (!Directory.Exists(SourceFolder))
+            {
+                throw new TaiyouException("Could not find source directory.");
+            }
+
             string[] sourceFiles = Directory.GetFileSystemEntries(SourceFolder, "*.tiy", SearchOption.AllDirectories);
 
             if (sourceFiles.Length == 0)
             {
                 Log.Warning("No source files found.");
                 return 0;
-                
-            }else
+
+            }
+            else
             {
                 // Make sure the output directory exists
                 Directory.CreateDirectory(OutputFolder);

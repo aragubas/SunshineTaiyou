@@ -20,7 +20,7 @@
     <Product>SunshineTaiyou Compiler</Product> 
     <PackageTags>compiler</PackageTags> 
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild> 
-    <GenerateDocumentationFile>True</GenerateDocumentationFile> 
+    <GenerateDocumentationFile>False</GenerateDocumentationFile> 
     <DebugType>portable</DebugType> 
     <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
 
