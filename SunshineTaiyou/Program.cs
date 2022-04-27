@@ -112,6 +112,7 @@ namespace SunshineTaiyou
             {
                 Log.Warning("No source files found.");
                 return 0;
+                
             }else
             {
                 // Make sure the output directory exists
