@@ -196,6 +196,7 @@ namespace SunshineTaiyou
 
             }
 
+            // Helps with debugging
             if (InteractiveExit)
             {
                 Console.WriteLine("Press any key to exit...");
