@@ -8,8 +8,8 @@ namespace SunshineTaiyou
 {
     public class TaiyouProject
     {
-        TaiyouAssembly[] Assemblies;
-        TaiyouNamespace[] Namespaces;
+        public TaiyouAssembly[] Assemblies;
+        public Dictionary<string, TaiyouNamespace> Namespaces = new();
         string EntryPoint = "Main.program";
 
         public TaiyouProject()

@@ -32,7 +32,12 @@ namespace SunshineTaiyou
             // Compile top level tokens
             CompileTopLevelTokens();
 
-            
+            if (!project.Namespaces.ContainsKey(Namespace))
+            {
+                project.Namespaces.Add(Namespace, new TaiyouNamespace());
+            }
+
+            project.Namespaces[Namespace].blocks.AddRange(TopLevelBlocks);
         }
 
         void CompileTopLevelTokens()

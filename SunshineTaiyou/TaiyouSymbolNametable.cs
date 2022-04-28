@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-
-    public class TaiyouNamespace
+    internal class TaiyouSymbolNametable
     {
-        public string Name;
-        public List<TaiyouBlock> blocks = new();
     }
 }
