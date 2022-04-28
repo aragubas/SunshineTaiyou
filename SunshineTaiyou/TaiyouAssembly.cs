@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,8 @@ namespace SunshineTaiyou
         public string[] Imports;
         public List<TaiyouToken> TopLevelTokens = new List<TaiyouToken>();
         public List<TaiyouBlock> TopLevelBlocks = new List<TaiyouBlock>();
+
+        public TaiyouAssembly() { }
 
         public TaiyouAssembly(string FilePath, string SourceFilesPath, ref TaiyouProject project)
         {
@@ -31,13 +34,17 @@ namespace SunshineTaiyou
 
             // Compile top level tokens
             CompileTopLevelTokens();
-
+            
+            // Add routines to namespace
             if (!project.Namespaces.ContainsKey(Namespace))
             {
                 project.Namespaces.Add(Namespace, new TaiyouNamespace());
             }
 
             project.Namespaces[Namespace].blocks.AddRange(TopLevelBlocks);
+
+            // Add this assembly to the project
+            project.Assemblies.Add(this);
         }
 
         void CompileTopLevelTokens()

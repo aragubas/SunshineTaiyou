@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SunshineTaiyou", "SunshineTaiyou\SunshineTaiyou.csproj", "{91163093-3D58-4364-9FC2-6BBA50275869}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaiyouRuntime", "TaiyouRuntime\TaiyouRuntime.csproj", "{F5F05432-ABC0-46CC-8493-6484EE2CDA56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,18 @@ Global
 		{91163093-3D58-4364-9FC2-6BBA50275869}.Release|x64.Build.0 = Release|Any CPU
 		{91163093-3D58-4364-9FC2-6BBA50275869}.Release|x86.ActiveCfg = Release|Any CPU
 		{91163093-3D58-4364-9FC2-6BBA50275869}.Release|x86.Build.0 = Release|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Debug|x64.Build.0 = Debug|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Debug|x86.Build.0 = Debug|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Release|x64.ActiveCfg = Release|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Release|x64.Build.0 = Release|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Release|x86.ActiveCfg = Release|Any CPU
+		{F5F05432-ABC0-46CC-8493-6484EE2CDA56}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

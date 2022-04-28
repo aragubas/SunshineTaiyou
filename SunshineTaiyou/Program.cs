@@ -128,12 +128,12 @@ namespace SunshineTaiyou
 
             List<TaiyouAssembly> assemblies = new List<TaiyouAssembly>();
             TaiyouProject taiyouProject = new TaiyouProject();
-            
+            Stopwatch stopwatch = new Stopwatch();
+
             foreach (string sourceFileEntry in sourceFiles)
             {
                 string sourceFile = sourceFileEntry.Replace("\\", "/");
 
-                Stopwatch stopwatch = new Stopwatch();
                 if (Log.LogLevel >= (int)SunshineTaiyou.LogLevel.Info)
                 {
                     Console.ForegroundColor = ConsoleColor.Cyan;
@@ -157,11 +157,39 @@ namespace SunshineTaiyou
                     Console.ForegroundColor = ConsoleColor.Green;
                     Log.Info($"Done! in {ElapsedTimeString}");
                     Console.ResetColor();
+                    stopwatch.Reset();
                     
                 }
             }
 
+            if (Log.LogLevel >= (int)SunshineTaiyou.LogLevel.Info)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($"Writting sunshine taiyou binnary file...");
+                Console.ResetColor();
+                stopwatch.Start();
+            }
             
+
+/*            MemoryStream stream = new MemoryStream();
+            serializer.Serialize(stream, taiyouProject);
+
+*/
+            File.WriteAllText(Path.Combine(OutputFolder, "project.styb"), JsonConvert.SerializeObject(taiyouProject));
+            
+            if (Log.LogLevel >= (int)SunshineTaiyou.LogLevel.Info)
+            {
+                string ElapsedTimeString = "";
+
+                if (stopwatch.ElapsedMilliseconds > 1000) { ElapsedTimeString = $"{stopwatch.Elapsed.TotalSeconds}s."; }
+                else { ElapsedTimeString = $"{stopwatch.ElapsedMilliseconds}ms."; }
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Log.Info($"Done! in {ElapsedTimeString}");
+                Console.ResetColor();
+
+            }
+
 
             return 0;
         }

@@ -1,4 +1,7 @@
 SunshineTaiyou/bin/*
 SunshineTaiyou/obj/*
+TaiyouRuntime/obj/*
+TaiyouRuntime/bin/*
 .vscode/*
+.vs/*
 build/*
