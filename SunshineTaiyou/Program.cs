@@ -45,6 +45,7 @@ namespace SunshineTaiyou
             bool CustomLogLevel_Latch = false;
             int LogLevel = 1;
             bool CustomOutputFolder_Latch = false;
+            bool InteractiveExit = false;
             string SourceFolder = "./program/";
             string OutputFolder = "./output/";
 
@@ -99,6 +100,11 @@ namespace SunshineTaiyou
                 if (arg == "-log")
                 {
                     CustomLogLevel_Latch = true;
+                }
+
+                if (arg == "-debug:interactive-exit")
+                {
+                    InteractiveExit = true;
                 }
 
             }
@@ -190,6 +196,11 @@ namespace SunshineTaiyou
 
             }
 
+            if (InteractiveExit)
+            {
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
+            }
 
             return 0;
         }
