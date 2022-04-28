@@ -8,12 +8,12 @@ namespace SunshineTaiyou.TokenTypes
 {
     public class MethodCalling : TaiyouToken
     {
-        public TaiyouSymbol Symbol;
+        public TaiyouSymbol MethodNameSymbol;
         public object[] Arguments;
 
         public MethodCalling(string name, string parameters_string)
         {
-            Symbol = new TaiyouSymbol(name, SymbolContext.MethodReference);
+            MethodNameSymbol = new TaiyouSymbol(name, SymbolContext.MethodReference);
             Arguments = Utils.ParseParametersString(ref parameters_string, true, SymbolContext.MethodParameters);
         }
 
@@ -31,7 +31,7 @@ namespace SunshineTaiyou.TokenTypes
                     {
                         value_string = $"TaiyouSymbol; Name: '{(Arguments[i] as TaiyouSymbol).Name}'";
                     }
-
+                        
                     if (i == Arguments.Length - 1)
                     {
                         parameters_string += value_string;
@@ -46,7 +46,7 @@ namespace SunshineTaiyou.TokenTypes
             }
 
 
-            return $"{this.GetType().Name}Token; SymbolicName: {Symbol.Name}, Parameters: [{parameters_string}]";
+            return $"{this.GetType().Name}Token; SymbolicName: {MethodNameSymbol.Name}, Parameters: [{parameters_string}]";
         }
     }
 }

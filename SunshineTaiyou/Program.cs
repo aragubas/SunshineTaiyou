@@ -126,6 +126,9 @@ namespace SunshineTaiyou
                 Directory.CreateDirectory(OutputFolder);
             }
 
+            List<TaiyouAssembly> assemblies = new List<TaiyouAssembly>();
+            TaiyouProject taiyouProject = new TaiyouProject();
+            
             foreach (string sourceFileEntry in sourceFiles)
             {
                 string sourceFile = sourceFileEntry.Replace("\\", "/");
@@ -140,10 +143,9 @@ namespace SunshineTaiyou
                 }
                 
                 // Compiles the source file
-                TaiyouAssembly assembly = new TaiyouAssembly(sourceFile);
+                TaiyouAssembly assembly = new TaiyouAssembly(sourceFile, Path.GetFullPath(SourceFolder), ref taiyouProject);
 
-                // Write output
-                File.WriteAllText(Path.Combine(OutputFolder, $"{Path.GetFileNameWithoutExtension(sourceFileEntry)}.tyso"), JsonConvert.SerializeObject(assembly));
+                assemblies.Add(assembly);
 
                 if (Log.LogLevel >= (int)SunshineTaiyou.LogLevel.Info)
                 {
@@ -158,6 +160,8 @@ namespace SunshineTaiyou
                     
                 }
             }
+
+            
 
             return 0;
         }

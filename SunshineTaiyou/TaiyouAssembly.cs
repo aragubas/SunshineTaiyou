@@ -17,10 +17,11 @@ namespace SunshineTaiyou
         public List<TaiyouToken> TopLevelTokens = new List<TaiyouToken>();
         public List<TaiyouBlock> TopLevelBlocks = new List<TaiyouBlock>();
 
-        public TaiyouAssembly(string FilePath)
+        public TaiyouAssembly(string FilePath, string SourceFilesPath, ref TaiyouProject project)
         {
             SourceCode = File.ReadAllLines(FilePath);
-            AssemblyName = Path.GetRelativePath("./", FilePath).Replace("\\", ".").Replace("/", ".");
+            AssemblyName = Path.GetRelativePath(SourceFilesPath, FilePath).Replace("\\", ".").Replace("/", ".").Replace(".tiy", "");
+
 
             List<string> FirstStepParserOutput = Parsers.ParserStepOne(ref SourceCode);
             List<string> SecondStepParserOutput = Parsers.ParserRemoveInlineBlockComments(ref FirstStepParserOutput);
@@ -28,7 +29,10 @@ namespace SunshineTaiyou
             TopLevelTokens.AddRange(Parsers.ParserGetAtDefinitions(ref SecondStepParserOutput));
             TopLevelBlocks.AddRange(Parsers.ParserGetTopLevelRoutineBlocks(ref SecondStepParserOutput));
 
+            // Compile top level tokens
             CompileTopLevelTokens();
+
+            
         }
 
         void CompileTopLevelTokens()

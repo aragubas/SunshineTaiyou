@@ -4,40 +4,16 @@
        2022 - Aragubas
 
     @namespace ("name") <- At Definition, declares the namespace for this file.
-    routine (name)      <- Routine Declartion, Declares a routine.
+    .routine (name)      <- Routine Declartion, Declares a routine.
 */
 
 // Applies to the entire assembly
 @namespace ("Main")
 @import ("Core")
-  
-.routine (program, "this should be ignored)", "\"and this literal should work\"")
+
+.routine (program)
 {
-    string::Test = "this is a string";
-	int::Test2 = 42;
-	double::Test3 = 2.4;
-	bool::Test4 = true;
+    string::Ceira = "Hello World";
 
-	Test = "assignment string!!";
-
-	if (ceira == "sinas")
-	{
-		int::Ceira = 42;
- 
-		second(Ceira)
-    }
- 	 
- 
-	second(666)
-	HelloWorld()
-}
-
-.routine (second, number)
-{
-	Log(number)
-}
-
-.routine (third)
-{
-	Log("Ceira")
+	Log(Ceira)
 }
