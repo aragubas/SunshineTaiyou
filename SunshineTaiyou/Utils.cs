@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    public static class Utils
+    internal static class Utils
     {
         public static bool IsOnlyDigits(ref string input)
         {

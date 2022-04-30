@@ -16,7 +16,7 @@
 
 namespace SunshineTaiyou
 {
-    public enum AtDefinitionType
+    internal enum AtDefinitionType
     { 
         Invalid,
         @namespace,
@@ -24,7 +24,7 @@ namespace SunshineTaiyou
         option
     }
 
-    public class AtDefinition : TaiyouToken
+    internal class AtDefinition : TaiyouToken
     {
         public AtDefinitionType Type;
 

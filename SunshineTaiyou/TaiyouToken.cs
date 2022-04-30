@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace SunshineTaiyou
 {
-    public abstract class TaiyouToken
+    internal abstract class TaiyouToken
     {
         public string Name;
         public object[] Parameters;

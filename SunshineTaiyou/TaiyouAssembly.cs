@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    public class TaiyouAssembly
+    internal class TaiyouAssembly
     {
         public string AssemblyName;
         string[] SourceCode;

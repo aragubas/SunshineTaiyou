@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    public class VariableDefinition : TaiyouToken
+    internal class VariableDefinition : TaiyouToken
     {
         public string VariableType = "";
         public object Value;

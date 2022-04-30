@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    public enum SymbolContext
+    internal enum SymbolContext
     {
         None,
         BlockParameters,
@@ -15,7 +15,7 @@ namespace SunshineTaiyou
         MethodParameters
     }
 
-    public class TaiyouSymbol
+    internal class TaiyouSymbol
     {
         public string Name;
         public SymbolContext Context;

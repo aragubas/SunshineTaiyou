@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    public enum LogLevel
+    internal enum LogLevel
     { 
         Warning = 0,
         Info = 1,
     }
 
-    public static class Log
+    internal static class Log
     {
         public static int LogLevel = 0;
 

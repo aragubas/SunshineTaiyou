@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SunshineTaiyou
 {
 
-    public class TaiyouNamespace
+    internal class TaiyouNamespace
     {
         public string Name;
         public List<TaiyouBlock> blocks = new();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    public class TaiyouProject
+    internal class TaiyouProject
     {
         public List<TaiyouAssembly> Assemblies = new();
         public Dictionary<string, TaiyouNamespace> Namespaces = new();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    public static class Parsers
+    internal static class Parsers
     {
         public static TaiyouToken[] MethodParser(ref string input)
         {
