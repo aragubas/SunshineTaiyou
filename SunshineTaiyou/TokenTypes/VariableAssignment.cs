@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou.TokenTypes
 {
-    internal class VariableAssignment : TaiyouToken
+    public class VariableAssignment : TaiyouToken
     {
         public new TaiyouSymbol Name;
         public object Value;

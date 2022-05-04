@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SunshineTaiyou
+namespace SunshineTaiyou.TokenTypes
 {
-    internal class VariableDefinition : TaiyouToken
+    public class VariableDefinition : TaiyouToken
     {
+        public new TaiyouSymbol Name;
         public string VariableType = "";
         public object Value;
         
@@ -15,7 +16,7 @@ namespace SunshineTaiyou
 
         public VariableDefinition(string type, string name, string value)
         {
-            Name = name;
+            Name = new TaiyouSymbol(name, SymbolContext.Definition);
             VariableType = type;
             Value = Utils.ParseParametersString(ref value)[0];
         }

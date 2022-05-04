@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    internal enum SymbolContext
+    public enum SymbolContext
     {
         None,
         BlockParameters,
         Assignment,
+        Reference,
+        Definition,
         MethodReference,
         MethodParameters
     }
 
-    internal class TaiyouSymbol
+    public class TaiyouSymbol
     {
         public string Name;
         public SymbolContext Context;

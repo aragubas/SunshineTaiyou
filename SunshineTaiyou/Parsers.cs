@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SunshineTaiyou.TokenTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -240,7 +241,7 @@ namespace SunshineTaiyou
         }
 
         /// <summary> Removes empty lines and inline comments </summary>
-        public static List<string> ParserStepOne(ref string[] input_lines)
+        public static List<string> ParserRemoveInlineComments(ref string[] input_lines)
         {
             List<string> ParserOutput = new List<string>();
 

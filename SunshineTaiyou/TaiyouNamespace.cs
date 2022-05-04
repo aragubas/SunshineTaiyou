@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace SunshineTaiyou
 {
 
-    internal class TaiyouNamespace
+    public class TaiyouNamespace
     {
         public string Name;
-        public List<TaiyouBlock> blocks = new();
+        public Dictionary<string, TaiyouBlock> blocks = new();
+
     }
 }

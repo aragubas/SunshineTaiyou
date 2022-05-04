@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    internal enum TaiyouBlockType
+    public enum TaiyouBlockType
     { 
         Invalid,
         Routine,
         Conditional
     }
 
-    internal class TaiyouBlock : TaiyouToken
+    public class TaiyouBlock : TaiyouToken
     {
         public TaiyouBlockType Type;
         public TaiyouToken[] InnerTokens;

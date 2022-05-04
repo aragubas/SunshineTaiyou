@@ -22,6 +22,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using SunshineTaiyou.Exceptions;
+using SunshineTaiyou.Runtime;
 
 namespace SunshineTaiyou
 {
@@ -43,7 +44,7 @@ namespace SunshineTaiyou
             bool NoLogo = false;
             bool CustomSourceFolder_Latch = false;
             bool CustomLogLevel_Latch = false;
-            int LogLevel = 1;
+            int LogLevel = 0;
             bool CustomOutputFolder_Latch = false;
             bool InteractiveExit = false;
             string SourceFolder = "./program/";
@@ -168,40 +169,9 @@ namespace SunshineTaiyou
                 }
             }
 
-            if (Log.LogLevel >= (int)SunshineTaiyou.LogLevel.Info)
-            {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"Writting sunshine taiyou binnary file...");
-                Console.ResetColor();
-                stopwatch.Start();
-            }
+            RuntimeMachine machine = new RuntimeMachine(taiyouProject);
+            machine.Run();
             
-
-/*            MemoryStream stream = new MemoryStream();
-            serializer.Serialize(stream, taiyouProject);
-
-*/
-            File.WriteAllText(Path.Combine(OutputFolder, "project.styb"), JsonConvert.SerializeObject(taiyouProject));
-            
-            if (Log.LogLevel >= (int)SunshineTaiyou.LogLevel.Info)
-            {
-                string ElapsedTimeString = "";
-
-                if (stopwatch.ElapsedMilliseconds > 1000) { ElapsedTimeString = $"{stopwatch.Elapsed.TotalSeconds}s."; }
-                else { ElapsedTimeString = $"{stopwatch.ElapsedMilliseconds}ms."; }
-
-                Console.ForegroundColor = ConsoleColor.Green;
-                Log.Info($"Done! in {ElapsedTimeString}");
-                Console.ResetColor();
-
-            }
-
-            // Helps with debugging
-            if (InteractiveExit)
-            {
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
-            }
 
             return 0;
         }

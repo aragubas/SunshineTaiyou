@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou.TokenTypes
 {
-    internal class MethodCalling : TaiyouToken
+    public class MethodCalling : TaiyouToken
     {
         public TaiyouSymbol MethodNameSymbol;
         public object[] Arguments;

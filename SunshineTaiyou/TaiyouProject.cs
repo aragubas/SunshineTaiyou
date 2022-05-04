@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    internal class TaiyouProject
+    public class TaiyouProject
     {
         public List<TaiyouAssembly> Assemblies = new();
         public Dictionary<string, TaiyouNamespace> Namespaces = new();
-        string EntryPoint = "Main.program";
+        public string EntryPoint = "Main:program";
 
         public TaiyouProject()
         {

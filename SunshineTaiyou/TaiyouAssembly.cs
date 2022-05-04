@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SunshineTaiyou
 {
-    internal class TaiyouAssembly
+    public class TaiyouAssembly
     {
         public string AssemblyName;
         string[] SourceCode;
@@ -26,7 +26,7 @@ namespace SunshineTaiyou
             AssemblyName = Path.GetRelativePath(SourceFilesPath, FilePath).Replace("\\", ".").Replace("/", ".").Replace(".tiy", "");
 
 
-            List<string> FirstStepParserOutput = Parsers.ParserStepOne(ref SourceCode);
+            List<string> FirstStepParserOutput = Parsers.ParserRemoveInlineComments(ref SourceCode);
             List<string> SecondStepParserOutput = Parsers.ParserRemoveInlineBlockComments(ref FirstStepParserOutput);
 
             TopLevelTokens.AddRange(Parsers.ParserGetAtDefinitions(ref SecondStepParserOutput));
@@ -41,7 +41,12 @@ namespace SunshineTaiyou
                 project.Namespaces.Add(Namespace, new TaiyouNamespace());
             }
 
-            project.Namespaces[Namespace].blocks.AddRange(TopLevelBlocks);
+            foreach(TaiyouBlock block in TopLevelBlocks)
+            {
+                project.Namespaces[Namespace].blocks.Add((block.Parameters[0] as TaiyouSymbol).Name, block);
+                
+            }
+
 
             // Add this assembly to the project
             project.Assemblies.Add(this);
